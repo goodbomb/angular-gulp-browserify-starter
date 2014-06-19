@@ -1,13 +1,13 @@
 {
-  "name": "AngularBase",
-  "version": "0.0.0",
+  "name": "AngularJS-Gulp-Browserify Starter",
+  "version": "1.0.0",
   "description": "Base AngularJS application with gulp and browserify",
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/goodbomb/angular-gulp-browserify-starter"
   },
-  "author": "Ben Scott <bscott@tekalstudios.com>",
+  "authors": "Ben Scott <bscott@tekalstudios.com>",
   "private": false,
   "devDependencies": {
     "browserify": "^4.1.10",
