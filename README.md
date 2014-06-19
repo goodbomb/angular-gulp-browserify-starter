@@ -10,7 +10,7 @@ Files are grouped structurally (each section of the app being self contained wit
 /app
 --- /assets
 ------ /images
------- /vendor
+------ /libs (bower components install here)
 --- /common
 ------ /directives
 ------ /resources
