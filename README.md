@@ -11,19 +11,25 @@ Files are grouped structurally (each section of the app being self contained wit
 --- /assets
 ------ /images
 ------ /vendor
---- /module1 (ex: common)
------- index.js (directives and module config)
------- module1.html (view)
------- module1.js (controller)
------- module1.less
+--- /common
+------ /directives
+------ /resources
+------ /services
+------ /styles
+------ common.js (common module requirements)
+------ common.less
 --- /module2 (ex: home)
------- index.js
------- module2.html
------- module2.js
------- module2.less
+------ index.js (directives and module config)
+------ module2.html (view)
+------ module2.js (controller)
+------ module2.less (styles)
 --- /module3 (ex: about)
+------ index.js
+------ module3.html
+------ module3.js
+------ module3.less
 --- /module4 (ex: contact)
---- app.js
+--- app.js (config)
 --- app.less
 /dist
 ```
