@@ -4,26 +4,32 @@ This Angular starter app is built with best practices in mind. The folder struct
 
 https://docs.google.com/document/d/1XXMvReO8-Awi1EZXAXS4PzDzdNvV6pGcuaF4Q9821Es/pub
 
-Files are grouped structurally (each section of the app being self contained with its own styles, views, controllers, and directives) instead of functionally (all views in one folder, all styles in one folder, etc). In practice, the file structure should look like this:
+Files are grouped structurally (each section of the app being self contained with its own styles, views, controllers, and directives) instead of functionally (all views in one folder, all styles in one folder, etc). In practice, the basic file structure should look something like this:
 
 ```
 /app
 --- /assets
 ------ /images
 ------ /vendor
---- /module1 (ex: common)
------- index.js (directives and module config)
------- module1.html (view)
------- module1.js (controller)
------- module1.less
+--- /common
+------ /directives
+------ /resources
+------ /services
+------ /styles
+------ common.js (common module requirements)
+------ common.less
 --- /module2 (ex: home)
------- index.js
------- module2.html
------- module2.js
------- module2.less
+------ index.js (directives and module config)
+------ module2.html (view)
+------ module2.js (controller)
+------ module2.less (styles)
 --- /module3 (ex: about)
+------ index.js
+------ module3.html
+------ module3.js
+------ module3.less
 --- /module4 (ex: contact)
---- app.js
+--- app.js (config)
 --- app.less
 /dist
 ```
