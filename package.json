@@ -1,5 +1,5 @@
 {
-  "name": "AngularJS-Gulp-Browserify Starter",
+  "name": "AngularJS-Gulp-Browserify-Starter",
   "version": "1.0.0",
   "description": "Base AngularJS application with gulp and browserify",
   "main": "app.js",
@@ -42,12 +42,6 @@
     "vinyl-buffer": "0.0.0"
   },
   "dependencies": {
-    "gulp": "^3.8.0",
-    "jquery": "^2.1.1",
-    "angular": "^1.2.16",
-    "angular-bootstrap": "0.0.4",
-    "bootstrap": "~3.1.1",
-    "angular-ui-router": "^0.2.10",
-    "domready": "^1.0.5"
+    "gulp": "^3.8.0"
   }
 }

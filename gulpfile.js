@@ -34,7 +34,7 @@ var filePath = {
     },
     browserify: { 
     	src: './app/app.js',
-    	watch: ['!./app/assets/vendor/*.js','./app/*.js','./app/**/*.js'] 
+    	watch: ['!./app/assets/libs/*.js','./app/*.js','./app/**/*.js'] 
     },
     styles: { 
     	src: './app/app.less', 
@@ -46,9 +46,8 @@ var filePath = {
     	dest: './dist/images/' 
     },
     vendorJS: { 
-    	src: './app/assets/vendor/*.js',
-		watch: './app/assets/vendor/*.js',
-		dest: './dist/vendor/' 
+    	src: './app/assets/libs/*.js',
+		watch: './app/assets/libs/*.js'
 	},
     views: { 
     	src: ['!./app/index.html','./app/**/*.html'],
@@ -159,7 +158,7 @@ gulp.task('vendorJS', function () {
     return gulp.src(filePath.vendorJS.src)
         .pipe(concat("scripts.js"))
         .pipe(uglify())
-        .pipe(gulp.dest(filePath.vendorJS.dest))
+        .pipe(gulp.dest(filePath.build.dest))
         .pipe(notify({ message: 'VendorJS task complete' }))
 });
 

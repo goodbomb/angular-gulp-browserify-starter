@@ -1,5 +1,5 @@
 {
-  "name": "AngularJS-Gulp-Browserify Starter",
+  "name": "AngularJS-Gulp-Browserify-Starter",
   "version": "1.0.0",
   "description": "Base AngularJS application with gulp and browserify",
   "main": "app.js",
@@ -9,15 +9,16 @@
   },
   "authors": "Ben Scott <bscott@tekalstudios.com>",
   "private": false,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ],
   "devDependencies": {},
   "dependencies": {
-    "angular-ui-utils": "~0.1.1"
+    "jquery": "latest",
+    "bootstrap": "latest",
+    "font-awesome": "latest",
+    "animate.css": "latest",
+    "angular": "latest",
+    "angular-bootstrap": "latest",
+    "angular-ui-utils": "latest",
+    "angular-ui-router": "latest",
+    "domready": "latest"
   }
 }
