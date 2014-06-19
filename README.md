@@ -10,7 +10,6 @@ Files are grouped structurally (each section of the app being self contained wit
 /app
 --- /assets
 ------ /images
------- /libs (bower components install here)
 --- /common
 ------ /directives
 ------ /resources
@@ -31,7 +30,8 @@ Files are grouped structurally (each section of the app being self contained wit
 --- /module4 (ex: contact)
 --- app.js (config)
 --- app.less
-/dist
+/dist (this is the gulp pipeline destination)
+/libs (bower components install here)
 ```
 
 Each Module is self-contained and the js files are exported, combined, and minified through Browserify. Every LESS file from each module should be imported into the master ```app.less``` file in the root app directory. It is then processed by Gulp and a css file with a source map is pushed to the ```dist``` folder.
