@@ -1,0 +1,22 @@
+{
+  "name": "Angular Base",
+  "version": "0.0.0",
+  "description": "Base AngularJS application with gulp and browserify",
+  "main": "app.js",
+  "authors": [
+    "Ben Scott <ben@goodbomb.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {},
+  "dependencies": {
+    "angular-ui-utils": "~0.1.1"
+  }
+}
