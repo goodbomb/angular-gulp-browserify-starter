@@ -15,6 +15,7 @@
       "debowerify"
     ]
   },
+  "browser": {},
   "devDependencies": {
     "browserify": "*",
     "browserify-shim": "*",
@@ -24,7 +25,6 @@
     "gulp-concat": "*",
     "gulp-jshint": "*",
     "jshint-stylish": "*",
-    "gulp-rename": "*",
     "gulp-angular-templatecache": "*",
     "gulp-util": "*",
     "gulp-notify": "*",
@@ -48,7 +48,6 @@
     "vinyl-buffer": "*"
   },
   "dependencies": {
-    "gulp": "*",
-    "angular": "*"
+    "gulp": "*"
   }
 }

@@ -1,9 +1,11 @@
-
 'use strict';
 
-var angular = require('angular');
-var app = angular.module('myApp', []);
+require('angular');
 
-var commonCtrl = require('./common/common');
-
-app.controller('commonCtrl', ['$scope', commonCtrl]);
+module.exports = angular.module('myApp',
+	[
+		require('./common/common.js').name,
+		require('./modules/home').name
+	])
+	.config(require('./common/routes'))
+	.constant('version', require('../package.json').version);

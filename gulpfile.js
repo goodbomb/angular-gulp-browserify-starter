@@ -15,7 +15,6 @@ var gulp 		 	= require('gulp'),
     minifyCSS 		= require('gulp-minify-css'),
     notify 			= require('gulp-notify'),
     angularTplCache = require('gulp-angular-templatecache'),
-    rename 			= require('gulp-rename');
     browserify   	= require('browserify'),
     source       	= require('vinyl-source-stream'),
     buffer 			= require('vinyl-buffer'),
@@ -46,12 +45,15 @@ var filePath = {
     	dest: './dist/images/' 
     },
     vendorJS: { 
-    	src: './app/assets/libs/*.js',
-		watch: './app/assets/libs/*.js'
+        // These files will be bundled into a single vendor.js file that's called at the bottom of index.html
+    	src: 
+        [
+            './libs/jquery/dist/jquery.min.js',
+            './libs/bootstrap/dist/js/bootstrap.min.js'
+        ]
 	},
-    views: { 
-    	src: ['!./app/index.html','./app/**/*.html'],
-    	watch: ['!./app/index.html','./app/**/*.html'] 
+    vendorCSS: { 
+    	src: ['./libs/bootstrap/dist/css/bootstrap.css']
     },
     copyIndex: { 
     	src: './app/index.html', 
@@ -112,16 +114,15 @@ gulp.task('lint', function() {
 // =======================================================================
 // Browserify
 // =======================================================================  
-gulp.task('browserify', function(){
-	var bundler = browserify(filePath.browserify.src);
-  	return bundler.bundle({ debug: true })
-	    .pipe(source(filePath.browserify.src))
-	    .pipe(rename('bundle.js'))
-	    .pipe(buffer())
-	    .pipe(streamify(uglify()))
-	    .pipe(gulp.dest(filePath.build.dest))
-	    .pipe(notify({ message: 'Browserify task complete' }))
-	    .pipe(refresh(lrserver));
+gulp.task('browserify', function() {
+    return browserify(filePath.browserify.src)
+        .bundle({ debug: true })
+        .pipe(source('bundle.js'))
+        .pipe(buffer())
+    //    .pipe(streamify(uglify()))
+        .pipe(gulp.dest(filePath.build.dest))
+        .pipe(notify({ message: 'Browserify task complete' }))
+        .pipe(refresh(lrserver));
 });
 
 
@@ -152,11 +153,11 @@ gulp.task('images', function() {
 
 
 // =======================================================================
-// Vendor Scripts Task
+// Vendor JS Task
 // =======================================================================  
 gulp.task('vendorJS', function () {
     return gulp.src(filePath.vendorJS.src)
-        .pipe(concat("scripts.js"))
+        .pipe(concat("vendor.js"))
         .pipe(uglify())
         .pipe(gulp.dest(filePath.build.dest))
         .pipe(notify({ message: 'VendorJS task complete' }))
@@ -164,14 +165,14 @@ gulp.task('vendorJS', function () {
 
 
 // =======================================================================
-// Views Task
+// Vendor CSS Task
 // =======================================================================  
-gulp.task('views',function(){
-    //combine all HTML view files of the app into a js file
-    return gulp.src(filePath.views.src)
-        .pipe(angularTplCache('views.js',{standalone:true}))
+gulp.task('vendorCSS', function () {
+    return gulp.src(filePath.vendorCSS.src)
+        .pipe(concat("vendor.css"))
+        .pipe(minifyCSS())
         .pipe(gulp.dest(filePath.build.dest))
-        .pipe(notify({ message: 'Views task complete' }))
+        .pipe(notify({ message: 'VendorCSS task complete' }))
         .pipe(refresh(lrserver));
 });
 
@@ -194,8 +195,8 @@ gulp.task('watch', function () {
 	gulp.watch(filePath.browserify.watch, ['browserify']);
     gulp.watch(filePath.styles.watch, ['styles']);
     gulp.watch(filePath.images.watch, ['images']);
-    gulp.watch(filePath.views.watch, ['views']);
-    gulp.watch(filePath.vendorJS.watch, ['vendorJS']);
+    gulp.watch(filePath.vendorJS.src, ['vendorJS']);
+    gulp.watch(filePath.vendorCSS.src, ['vendorCSS']);
     gulp.watch(filePath.copyIndex.watch, ['copyIndex']);
 });
 
@@ -206,7 +207,7 @@ gulp.task('watch', function () {
 gulp.task('build', function(callback) {
 	runSequence(
 	  	['clean', 'lint'],
-		['browserify', 'styles', 'images', 'views', 'vendorJS', 'copyIndex'],
+		['browserify', 'styles', 'images', 'vendorJS', 'vendorCSS', 'copyIndex'],
 		['dev', 'watch'],
 		callback
 	);
