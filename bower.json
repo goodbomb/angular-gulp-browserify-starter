@@ -15,10 +15,11 @@
     "bootstrap": "latest",
     "font-awesome": "latest",
     "animate.css": "latest",
-    "angular": "latest",
     "angular-bootstrap": "latest",
     "angular-ui-utils": "latest",
     "angular-ui-router": "latest",
-    "domready": "latest"
+    "angular-animate": "latest",
+    "domready": "latest",
+    "alertify.js": "latest"
   }
 }
