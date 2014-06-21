@@ -9,7 +9,15 @@
   </head>
   <body>
 
-    <div ui-view></div>
+    <div class="page">
+      <header class="header"></header>
+
+      <section class="main">
+        <div ui-view></div>
+      </section>
+
+      <footer class="footer"></footer>
+    </div>
 
     <script src="vendor.js"></script>
     <script src="bundle.js"></script>
