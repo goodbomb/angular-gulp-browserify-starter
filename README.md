@@ -17,19 +17,20 @@ Files are grouped structurally (each section of the app being self contained wit
 ------ /styles
 ------ common.js (common module requirements)
 ------ common.less
---- /module2 (ex: home)
------- index.js (module definition)
------- home.html (view)
------- homeController.js (controller)
------- homeDirective.js (directives)
------- module2.less (styles)
---- /module3 (ex: about)
------- index.js
------- moduleView.html
------- moduleController.js
------- moduleDirective.js
------- module.less
---- /module4 (ex: contact)
+--- /modules
+------ /module1 (ex: home)
+--------- index.js (module definition)
+--------- home.html (view)
+--------- homeController.js (controller)
+--------- homeDirective.js (directives)
+--------- module2.less (styles)
+------ /module2 (ex: about)
+--------- index.js
+--------- moduleView.html
+--------- moduleController.js
+--------- moduleDirective.js
+--------- module.less
+------ /module4 (ex: contact)
 --- app.js
 --- app.less
 --- appRoutes.js (config file / path routes)
