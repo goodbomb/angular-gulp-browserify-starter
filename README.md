@@ -82,4 +82,4 @@ $stateProvider
       template: '<div home-view></div>'
     });
 ```
-As you can see, it's a lot cleaner.
+As you can see, it's simpler and cleaner, calling only an HTML ```<div></div>``` tag as a template and leaving everything else contained within the module. This way, if anything changes in the file structure, the routes won't need to be updated.
