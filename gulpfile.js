@@ -1,24 +1,24 @@
 // =======================================================================
 // Gulp Plugins
 // =======================================================================
-var gulp 		 	= require('gulp'),
-    gutil 		 	= require('gulp-util'),
-    jshint 		 	= require('gulp-jshint'),
-    stylish 		= require('jshint-stylish'),
-    concat 		 	= require('gulp-concat'),
-    clean 		 	= require('gulp-clean'),
-    streamify		= require('gulp-streamify'),
-    uglify 			= require('gulp-uglify'),
-    sourcemaps		= require('gulp-sourcemaps'),
-    less 			= require('gulp-less-sourcemap'),
-    prefix			= require('gulp-autoprefixer'),
-    minifyCSS 		= require('gulp-minify-css'),
-    notify 			= require('gulp-notify'),
+var gulp            = require('gulp'),
+    gutil           = require('gulp-util'),
+    jshint          = require('gulp-jshint'),
+    stylish         = require('jshint-stylish'),
+    concat          = require('gulp-concat'),
+    clean           = require('gulp-clean'),
+    streamify       = require('gulp-streamify'),
+    uglify          = require('gulp-uglify'),
+    sourcemaps      = require('gulp-sourcemaps'),
+    less            = require('gulp-less-sourcemap'),
+    prefix          = require('gulp-autoprefixer'),
+    minifyCSS       = require('gulp-minify-css'),
+    notify          = require('gulp-notify'),
     angularTplCache = require('gulp-angular-templatecache'),
-    browserify   	= require('browserify'),
-    source       	= require('vinyl-source-stream'),
-    buffer 			= require('vinyl-buffer'),
-    runSequence 	= require('run-sequence');
+    browserify      = require('browserify'),
+    source          = require('vinyl-source-stream'),
+    buffer          = require('vinyl-buffer'),
+    runSequence     = require('run-sequence');
 
 
 // =======================================================================
@@ -26,38 +26,38 @@ var gulp 		 	= require('gulp'),
 // =======================================================================
 var filePath = {
     build: { 
-    	dest: './dist/' 
+        dest: './dist/' 
     },
     lint: { 
-    	src: ['./app/*.js', './app/**/*.js'] 
+        src: ['./app/*.js', './app/**/*.js'] 
     },
     browserify: { 
-    	src: './app/app.js',
-    	watch: ['!./app/assets/libs/*.js','./app/*.js','./app/**/*.js'] 
+        src: './app/app.js',
+        watch: ['!./app/assets/libs/*.js','./app/*.js','./app/**/*.js'] 
     },
     styles: { 
-    	src: './app/app.less', 
-    	watch: ['./app/app.less','./app/**/*.less'] 
+        src: './app/app.less', 
+        watch: ['./app/app.less','./app/**/*.less'] 
     },
     images: { 
-    	src: './app/assets/images/*', 
-    	watch: './app/assets/images/*', 
-    	dest: './dist/images/' 
+        src: './app/assets/images/*', 
+        watch: './app/assets/images/*', 
+        dest: './dist/images/' 
     },
     vendorJS: { 
         // These files will be bundled into a single vendor.js file that's called at the bottom of index.html
-    	src: 
+        src: 
         [
             './libs/jquery/dist/jquery.min.js',
             './libs/bootstrap/dist/js/bootstrap.min.js'
         ]
-	},
+    },
     vendorCSS: { 
-    	src: ['./libs/bootstrap/dist/css/bootstrap.css']
+        src: ['./libs/bootstrap/dist/css/bootstrap.css']
     },
     copyIndex: { 
-    	src: './app/index.html', 
-    	watch: './app/index.html' 
+        src: './app/index.html', 
+        watch: './app/index.html' 
     }
 };
 
@@ -65,14 +65,14 @@ var filePath = {
 // =======================================================================
 // Server Settings for local development (Express Server)
 // =======================================================================
-var embedlr 		= require('gulp-embedlr'),
-    refresh 		= require('gulp-livereload'),
-    lrserver 		= require('tiny-lr')(),
-    express 		= require('express'),
-    livereload 		= require('connect-livereload'),
-    livereloadport 	= 35729,
-    serverport 		= 5000,
-    server 			= express();
+var embedlr         = require('gulp-embedlr'),
+    refresh         = require('gulp-livereload'),
+    lrserver        = require('tiny-lr')(),
+    express         = require('express'),
+    livereload      = require('connect-livereload'),
+    livereloadport  = 35729,
+    serverport      = 5000,
+    server          = express();
 
 server.use(livereload({port: livereloadport}));
 // Use our 'dist' folder as rootfolder
@@ -87,8 +87,9 @@ server.all('/*', function(req, res) {
 // Dev Server Task
 // =======================================================================  
 gulp.task('dev', function() {
-	server.listen(serverport);
-	lrserver.listen(livereloadport);
+    server.listen(serverport);
+    lrserver.listen(livereloadport);
+    console.log('Server running at http://localhost:5000');
 });
 
 
@@ -96,8 +97,8 @@ gulp.task('dev', function() {
 // Clean out dist folder contents on build
 // =======================================================================  
 gulp.task('clean', function () {
-	gulp.src(filePath.build.dest, {read: false})
-    	.pipe(clean());
+    return gulp.src(filePath.build.dest, {read: false})
+        .pipe(clean());
 });
 
 
@@ -105,9 +106,9 @@ gulp.task('clean', function () {
 // JSHint
 // =======================================================================
 gulp.task('lint', function() {
-	return gulp.src(filePath.lint.src)
-	.pipe(jshint())
-	.pipe(jshint.reporter(stylish));
+    return gulp.src(filePath.lint.src)
+    .pipe(jshint())
+    .pipe(jshint.reporter(stylish));
 });
 
 
@@ -130,10 +131,10 @@ gulp.task('browserify', function() {
 // Styles Task
 // =======================================================================  
 gulp.task('styles', function () {
-    gulp.src(filePath.styles.src)
+    return gulp.src(filePath.styles.src)
         .pipe(less())
-		.pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"))
-		.pipe(minifyCSS())
+        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"))
+        .pipe(minifyCSS())
         .pipe(gulp.dest(filePath.build.dest))
         // This next line will be displayed twice - once for the CSS file and once for the source map
         .pipe(notify({ message: 'Styles task complete' }))
@@ -181,10 +182,10 @@ gulp.task('vendorCSS', function () {
 // Copy index.html
 // =======================================================================  
 gulp.task('copyIndex', function () {
-	return gulp.src(filePath.copyIndex.src)
-		.pipe(gulp.dest(filePath.build.dest))
-		.pipe(notify({ message: 'index.html successfully copied' }))
-		.pipe(refresh(lrserver));
+    return gulp.src(filePath.copyIndex.src)
+        .pipe(gulp.dest(filePath.build.dest))
+        .pipe(notify({ message: 'index.html successfully copied' }))
+        .pipe(refresh(lrserver));
 });
 
 
@@ -192,12 +193,13 @@ gulp.task('copyIndex', function () {
 // Watch for changes
 // =======================================================================  
 gulp.task('watch', function () {
-	gulp.watch(filePath.browserify.watch, ['browserify']);
+    gulp.watch(filePath.browserify.watch, ['browserify']);
     gulp.watch(filePath.styles.watch, ['styles']);
     gulp.watch(filePath.images.watch, ['images']);
     gulp.watch(filePath.vendorJS.src, ['vendorJS']);
     gulp.watch(filePath.vendorCSS.src, ['vendorCSS']);
     gulp.watch(filePath.copyIndex.watch, ['copyIndex']);
+    console.log('Watching...');
 });
 
 
@@ -205,12 +207,12 @@ gulp.task('watch', function () {
 // Sequential Build Rendering
 // =======================================================================  
 gulp.task('build', function(callback) {
-	runSequence(
-	  	['clean', 'lint'],
-		['browserify', 'styles', 'images', 'vendorJS', 'vendorCSS', 'copyIndex'],
-		['dev', 'watch'],
-		callback
-	);
+    runSequence(
+        ['clean', 'lint'],
+        ['browserify', 'styles', 'images', 'vendorJS', 'vendorCSS', 'copyIndex'],
+        ['dev', 'watch'],
+        callback
+    );
 });
 
 
