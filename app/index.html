@@ -2,24 +2,30 @@
 <html ng-app="myApp">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>Site Title</title>
+    <meta name="viewport" content="width=device-width, maximum-scale = 1.0">
+
+    <title>SiteName {{page.title}}</title>
+    <meta name="description" content="{{page.description}}">
+
     <link href="vendor.css" rel="stylesheet">
     <link href="app.css" rel="stylesheet">
   </head>
-  <body>
+
+  <body ng-class="bodyClasses">
 
     <div class="page">
-      <header class="header"></header>
+      <common-header></common-header>
 
       <section class="main">
         <div ui-view></div>
       </section>
 
-      <footer class="footer"></footer>
+      <common-footer></common-footer>
     </div>
 
     <script src="vendor.js"></script>
     <script src="bundle.js"></script>
+    
   </body>
+
 </html>

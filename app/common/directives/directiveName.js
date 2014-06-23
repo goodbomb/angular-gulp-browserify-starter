@@ -1,8 +1,8 @@
 'use strict';
 
-module.exports = function directiveName() {
+module.exports = function commonDirectiveName() {
 	return {
-		template: require(''),
+		templateUrl: require(''),
 		restrict: 'EA',
 		scope: true
 	};

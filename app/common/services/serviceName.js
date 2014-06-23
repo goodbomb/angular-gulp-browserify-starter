@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function serviceName() {
+module.exports = function commonServiceName() {
 	return {
 		
 	};

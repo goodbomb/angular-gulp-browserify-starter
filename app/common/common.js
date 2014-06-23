@@ -11,5 +11,6 @@ module.exports = angular.module('common',
 	[
         'ui.bootstrap',
         'ui.router',
-        'ngAnimate'
+        'ngAnimate',
+        require('./components/header').name
 	]);

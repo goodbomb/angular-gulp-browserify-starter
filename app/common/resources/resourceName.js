@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function resourceName() {
+module.exports = function commonResourceName() {
 	return {
 		
 	};
