@@ -30,7 +30,7 @@ Files are grouped structurally (each section of the app being self contained wit
 --------- moduleController.js
 --------- moduleDirective.js
 --------- module.less
------- /module4 (ex: contact)
+------ /module3 (ex: contact)
 --- app.js
 --- app.less
 --- appRoutes.js (config file / path routes)
