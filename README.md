@@ -74,7 +74,8 @@ $stateProvider
     })
 ...
 ```
-In this application, each module is set up as an injectible directive with its own controller. So instead of the above example, the home module has a directive called ```homeView``` that can be injected into the HTML like this: ```<div home-view></div>``` (camelcased directives always have to be changed to dashed names when in the HTML). As such, our route config makes use of the ```template``` paramter instead of ```templateURL```. So the routes look like this instead:
+In this application, each module is set up as an injectible directive with its own controller. So instead of the above example, the home module has a directive called ```homeView``` that can be injected into the HTML like this: 
+```<div home-view></div>``` (camelcased directives always have to be changed to dashed names when in the HTML). As such, our route config makes use of the ```template``` paramter instead of ```templateURL```. So the routes look like this instead:
 
 ```
 $stateProvider
