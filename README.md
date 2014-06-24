@@ -11,6 +11,7 @@ Files are grouped structurally (each section of the app being self contained wit
 --- /assets
 ------ /images
 --- /common
+------ /components (common page elements like footer and header)
 ------ /directives
 ------ /resources
 ------ /services
@@ -21,13 +22,13 @@ Files are grouped structurally (each section of the app being self contained wit
 ------ /module1 (ex: home)
 --------- index.js (module definition)
 --------- home.html (view)
---------- homeController.js (controller)
+--------- HomeController.js (controller)
 --------- homeDirective.js (directives)
 --------- module2.less (styles)
 ------ /module2 (ex: about)
 --------- index.js
 --------- moduleView.html
---------- moduleController.js
+--------- ModuleController.js
 --------- moduleDirective.js
 --------- module.less
 ------ /module3 (ex: contact)
@@ -42,12 +43,12 @@ Files are grouped structurally (each section of the app being self contained wit
 
 Each Module is self-contained and the js files are exported, combined, and minified through Browserify. Every LESS file from each module should be imported into the master ```app.less``` file in the root app directory. Likewise, each LESS file from a sub-module should be imported into the main ```module.less``` file. The main app.less file is then processed by Gulp and a css file with a source map is pushed to the ```dist``` folder.
 
-### Instructions
+### Setup Instructions
 1) Node Modules and Bower Components are not included in this repository to keep it light weight. After cloning or pulling changes from this repository, make sure to run the following commands in terminal:
 
 ```npm install``` and ```bower install```
 
-2) Once everything is installed all you have to do is run ```gulp``` and your new server will be running at ```http://localhost:5000```
+2) Once everything is installed all you have to do is run ```gulp``` and your new server will be running at ```http://localhost:5000``` (you can edit the port in the gulpFile).
 
 
 ### Working with this application structure
@@ -61,6 +62,8 @@ Each Module is self-contained and the js files are exported, combined, and minif
 
 
 ### Routes, Controllers and TemplateURLs
+NOTE: When creating controllers and services/factories, always follow the proper naming convention of starting with an uppercase letter. Everything else can use camelCase.
+
 1) Default AngularJS applications tend to use the ```angular-route``` plugin that makes use of a main ```ng-view``` directive in the index.html file and standard ```href``` tags for links. This application is using the ```angular-ui-router``` plugin for better route nesting and greater customizability. It makes use of a main ```ui-view``` directive instead of ```ng-view``` and uses an ```sref``` tag for links instead of the normal ```href``` tag. Check out the official documentation for more details: https://github.com/angular-ui/ui-router
 
 2) Due to the modularity of this application structure, standard routing parameters aren't being used. In most examples, routes make use of ```TemplateURL``` and ```controller``` like so:
@@ -123,3 +126,9 @@ require('./modules/moduleName').name
 After those steps are complete, you should be able to see the contents of your new module at the URL you specified in step 3.
 
 NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleRoutes.js``` file where you will define module-specific states, and then require the sub-module in the module's ```index.js``` file.
+
+### Learning Resouces
+https://github.com/curran/screencasts/tree/gh-pages/introToAngular
+http://campus.codeschool.com/courses/shaping-up-with-angular-js
+http://egghead.io
+http://thinkster.io
