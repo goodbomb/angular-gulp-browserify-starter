@@ -3,7 +3,7 @@
 
 'use strict';
 
-module.exports = function($stateProvider, $urlRouterProvider) {
+function appRoutes($stateProvider, $urlRouterProvider) {
 
   // For any unmatched url, redirect to /
   $urlRouterProvider.otherwise('/');
@@ -16,4 +16,7 @@ module.exports = function($stateProvider, $urlRouterProvider) {
       template: '<div home-view></div>'
     });
 
-};
+}
+
+appRoutes.$inject = ['$stateProvider', '$urlRouterProvider'];
+module.exports = appRoutes;

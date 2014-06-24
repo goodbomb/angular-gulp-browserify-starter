@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function homeInit($rootScope) {
+function homeInit($rootScope) {
 
 	$rootScope.page = {
 		title: '- Home',
@@ -14,4 +14,7 @@ module.exports = function homeInit($rootScope) {
     $rootScope.pageClasses = {
         'page': true
     };
-};
+}
+
+homeInit.$inject = ['$rootScope'];
+module.exports = homeInit;
