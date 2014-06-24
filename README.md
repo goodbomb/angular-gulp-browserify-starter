@@ -85,3 +85,41 @@ $stateProvider
     });
 ```
 As you can see, it's simpler and cleaner, calling only an HTML ```<div></div>``` tag as a template and leaving everything else contained within the module. This way, if anything changes in the file structure, the routes won't need to be updated.
+
+### Adding Modules
+1) Create a new folder in the ```app/modules/``` directory with the following files:
+
+```
+index.js
+moduleName.html
+moduleName.less
+moduleNameController.js
+moduleNamedirective.js
+moduleName-init.js
+```
+
+2) Change the file contents accordingly. Follow the ```app/modules/home``` files as reference. Make sure to rename all of the names in the code.
+
+3) Add a new state to the ```app/appRoutes.js``` file like so:
+
+```
+$stateProvider
+    .state('home', {
+      url: '/',
+      template: '<div home-view></div>'
+    })
+    .state('moduleName', {
+      url: '/desiredPath',
+      template: '<div module-name></div>'
+    });
+```
+
+4) Open ```app.js``` and add a requirement for the new module. Make sure to require the entire module folder (browserify will look for the index.js file and use that file as the entry point for all other module dependencies). 
+
+```
+require('./modules/moduleName').name
+```
+
+After those steps are complete, you should be able to see the contents of your new module at the URL you specified in step 3.
+
+NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleRoutes.js``` file where you will define module-specific states, and then require the sub-module in the module's ```index.js``` file.
