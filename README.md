@@ -129,6 +129,9 @@ NOTE: This same process applies to sub-modules, except you will treat the module
 
 ### Learning Resouces
 https://github.com/curran/screencasts/tree/gh-pages/introToAngular
+
 http://campus.codeschool.com/courses/shaping-up-with-angular-js
+
 http://egghead.io
+
 http://thinkster.io
