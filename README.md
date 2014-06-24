@@ -128,10 +128,7 @@ After those steps are complete, you should be able to see the contents of your n
 NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleRoutes.js``` file where you will define module-specific states, and then require the sub-module in the module's ```index.js``` file.
 
 ### Learning Resouces
-https://github.com/curran/screencasts/tree/gh-pages/introToAngular
-
-http://campus.codeschool.com/courses/shaping-up-with-angular-js
-
-http://egghead.io
-
-http://thinkster.io
+- https://github.com/curran/screencasts/tree/gh-pages/introToAngular
+- http://campus.codeschool.com/courses/shaping-up-with-angular-js
+- http://egghead.io
+- http://thinkster.io
