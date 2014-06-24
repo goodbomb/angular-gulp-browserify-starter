@@ -2,5 +2,5 @@
 // Home View
 module.exports = angular.module('home', [])
 	.directive('homeView', require('./homeDirective'))
-	.controller('homeViewCtrl', require('./homeController'))
+	.controller('HomeViewCtrl', require('./HomeController'))
 	.run(require('./home-init.js'));
