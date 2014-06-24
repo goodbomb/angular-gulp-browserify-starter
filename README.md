@@ -94,11 +94,11 @@ index.js
 moduleName.html
 moduleName.less
 moduleNameController.js
-moduleNamedirective.js
+moduleNameDirective.js
 moduleName-init.js
 ```
 
-2) Change the file contents accordingly. Follow the ```app/modules/home``` files as reference. Make sure to rename all of the names in the code.
+2) Change the file contents accordingly. Follow the ```app/modules/home``` files as reference. Make sure to change the naming convention in each file.
 
 3) Add a new state to the ```app/appRoutes.js``` file like so:
 
