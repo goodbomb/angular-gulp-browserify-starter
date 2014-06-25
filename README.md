@@ -40,7 +40,7 @@ Files are grouped structurally (each section of the app being self contained wit
 --------- module.less
 --- app.js
 --- app.less
---- config.js (config file / path routes)
+--- appConfig.js (config file / path routes)
 --- index.html
 /dist (this is the gulp pipeline file output destination)
 /libs (bower components install here)
