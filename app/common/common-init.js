@@ -1,13 +1,13 @@
 'use strict';
 
-function commonInit($rootScope) {
-
-    var moduleClasses = $rootScope.moduleClasses;
-    var pageClasses = $rootScope.pageClasses;
-
-    // merge moduleClasses and pageClasses into bodyClasses
-    $rootScope.bodyClasses = $.extend({}, moduleClasses, pageClasses);    
+function commonInit($rootScope, $state) {
+	$rootScope.$state = $state;
+	
+	// Change bodyClasses on state change (ui-router)
+    $rootScope.$on('$stateChangeSuccess',function(event, toState){
+	    $rootScope.bodyClasses = toState.moduleClasses + ' ' + toState.pageClasses;
+    });
 }
 
-commonInit.$inject = ['$rootScope'];
+commonInit.$inject = ['$rootScope', '$state'];
 module.exports = commonInit;

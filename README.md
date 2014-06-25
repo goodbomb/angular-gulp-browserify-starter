@@ -36,11 +36,11 @@ Files are grouped structurally (each section of the app being self contained wit
 --------- /sub-module2
 --------- /sub-module3
 --------- index.js
---------- moduleRoutes.js (defines routes for nested sub-modules)
+--------- moduleConfig.js (defines routes and config options for nested sub-modules)
 --------- module.less
 --- app.js
 --- app.less
---- appRoutes.js (config file / path routes)
+--- config.js (config file / path routes)
 --- index.html
 /dist (this is the gulp pipeline file output destination)
 /libs (bower components install here)
@@ -95,6 +95,26 @@ $stateProvider
 ```
 As you can see, it's simpler and cleaner, calling only an HTML ```<div></div>``` tag as a template and leaving everything else contained within the module. This way, if anything changes in the file structure, the routes won't need to be updated.
 
+As we add more options and configuration to each state, further changes to the $stateProvider function becomes necessary, so the current configuration looks like this:
+
+```
+var home = {
+    name: 'home',
+    url: '/',
+    template: '<div home-view></div>'
+},
+var module2 = {
+    name: 'module2',
+    url: '/module2',
+    template: '<div module2-view></div>'
+};
+
+$stateProvider.state(home);
+$stateProvider.state(module2);
+```
+
+With this approach, it's very easy to keep every state object clean and easy to understand.
+
 ### Adding Modules
 1) Create a new folder in the ```app/modules/``` directory with the following files:
 
@@ -109,7 +129,7 @@ moduleName-init.js
 
 2) Change the file contents accordingly. Follow the ```app/modules/home``` files as reference. Make sure to change the naming convention in each file.
 
-3) Add a new state to the ```app/appRoutes.js``` file like so:
+3) Add a new state to the ```app/config.js``` file like so:
 
 ```
 $stateProvider
