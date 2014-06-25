@@ -124,7 +124,7 @@ moduleName.html
 moduleName.less
 moduleNameController.js
 moduleNameDirective.js
-moduleName-init.js
+moduleNameConfig.js (this file is only necessary if you'll be adding sub-modules)
 ```
 
 2) Change the file contents accordingly. Follow the ```app/modules/home``` files as reference. Make sure to change the naming convention in each file.
@@ -132,15 +132,19 @@ moduleName-init.js
 3) Add a new state to the ```app/config.js``` file like so:
 
 ```
-$stateProvider
-    .state('home', {
-      url: '/',
-      template: '<div home-view></div>'
-    })
-    .state('moduleName', {
-      url: '/desiredPath',
-      template: '<div module-name></div>'
-    });
+var home = {
+    name: 'home',
+    url: '/',
+    template: '<div home-view></div>'
+},
+var moduleName = {
+    name: 'moduleName',
+    url: '/moduleName',
+    template: '<div moduleName-view></div>'
+};
+
+$stateProvider.state(home);
+$stateProvider.state(moduleName);
 ```
 
 4) Open ```app.js``` and add a requirement for the new module. Make sure to require the entire module folder (browserify will look for the index.js file and use that file as the entry point for all other module dependencies). 
@@ -151,7 +155,7 @@ require('./modules/moduleName').name
 
 After those steps are complete, you should be able to see the contents of your new module at the URL you specified in step 3.
 
-NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleRoutes.js``` file where you will define module-specific states, and then require the sub-module in the module's ```index.js``` file.
+NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleConfig.js``` file where you will define module-specific states and options, and then require the sub-module in the module's ```index.js``` file.
 
 ### Learning Resouces
 - https://github.com/curran/screencasts/tree/gh-pages/introToAngular
