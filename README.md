@@ -25,13 +25,19 @@ Files are grouped structurally (each section of the app being self contained wit
 --------- HomeController.js (controller)
 --------- homeDirective.js (directives)
 --------- module2.less (styles)
------- /module2 (ex: about)
+------ /module2
 --------- index.js
 --------- moduleView.html
 --------- ModuleController.js
 --------- moduleDirective.js
 --------- module.less
------- /module3 (ex: contact)
+------ /module3
+--------- /sub-module1
+--------- /sub-module2
+--------- /sub-module3
+--------- index.js
+--------- moduleRoutes.js (defines routes for nested sub-modules)
+--------- module.less
 --- app.js
 --- app.less
 --- appRoutes.js (config file / path routes)
