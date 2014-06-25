@@ -3,10 +3,15 @@
 function commonInit($rootScope, $state) {
 	$rootScope.$state = $state;
 	
-	// Change bodyClasses on state change (ui-router)
-    $rootScope.$on('$stateChangeSuccess',function(event, toState){
-	    $rootScope.bodyClasses = toState.moduleClasses + ' ' + toState.pageClasses;
-    });
+	// Set bodyClasses, pageTitle, and pageDescription on state change (ui-router)
+
+    $rootScope.$on('$stateChangeSuccess', function(event, toState){
+		if ( angular.isDefined( toState.data.pageTitle ) ) {
+			$rootScope.pageTitle = toState.data.pageTitle;
+			$rootScope.pageDescription = toState.data.pageDescription;
+			$rootScope.bodyClasses = toState.data.moduleClasses + ' ' + toState.data.pageClasses;
+		}
+	});
 }
 
 commonInit.$inject = ['$rootScope', '$state'];
