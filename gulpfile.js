@@ -27,7 +27,7 @@ var gulp            = require('gulp'),
 // =======================================================================
 var filePath = {
     build: { 
-        dest: './dist/' 
+        dest: './dist/app/' 
     },
     lint: { 
         src: ['./app/*.js', './app/**/*.js'] 
