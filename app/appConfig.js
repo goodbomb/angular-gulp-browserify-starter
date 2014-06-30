@@ -3,8 +3,10 @@
 
 'use strict';
 
-function appRoutes($stateProvider, $urlRouterProvider) {
+function appRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
 
+	// Ad hasbang prefix for SEO
+	$locationProvider.html5Mode(true).hashPrefix('!');
 	// For any unmatched url, redirect to /
 	$urlRouterProvider.otherwise('/');
 
@@ -25,5 +27,5 @@ function appRoutes($stateProvider, $urlRouterProvider) {
 
 }
 
-appRoutes.$inject = ['$stateProvider', '$urlRouterProvider'];
+appRoutes.$inject = ['$stateProvider', '$urlRouterProvider', '$locationProvider'];
 module.exports = appRoutes;
