@@ -27,7 +27,7 @@ var gulp            = require('gulp'),
 // =======================================================================
 var filePath = {
     build: { 
-        dest: './dist/app/' 
+        dest: './dist' 
     },
     lint: { 
         src: ['./app/*.js', './app/**/*.js'] 
@@ -80,7 +80,7 @@ server.use(livereload({port: livereloadport}));
 server.use(express.static('./dist'));
 // Redirects everything back to our index.html
 server.all('/*', function(req, res) {
-    res.sendfile(filePath.copyIndex.src, { root: 'dist' });
+    res.sendfile('index.html', { root: './dist' });
 });
 
 
