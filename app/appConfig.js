@@ -27,8 +27,8 @@ function appRoutes($stateProvider, $urlRouterProvider, $locationProvider) {
 	$stateProvider.state(home);
 
 	// Make sure the page scrolls to the top on state transition
-	$provide.decorator('$uiViewScroll', function ($delegate) {
-		return function (uiViewElement) {
+	$provide.decorator('$uiViewScroll', function () {
+		return function () {
 		   window.scrollTo(0, 0);
 		}; 
 	});
