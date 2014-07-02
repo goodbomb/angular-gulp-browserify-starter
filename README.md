@@ -157,6 +157,12 @@ After those steps are complete, you should be able to see the contents of your n
 
 NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleConfig.js``` file where you will define module-specific states and options, and then require the sub-module in the module's ```index.js``` file.
 
+### Adding Third Party Vendor JS and CSS files to the pipeline
+Instead of bloating the index.html file with a list of scripts and link tags, all CSS and Javascript files from Vendors are bundled and concatenated into single ```vendor.css``` and ```vendor.js``` files using the Gulp pipeline. To add vendor files to your workflow, all you have to do is access the ```Gulpfile.js``` and add the relative path to the file from the ```libs``` directory to the appropriate location in the *"File Paths"* section.
+
+For CSS files, add the path to the *VendorCSS* workflow.
+For JS files, add the path to the *VendorJS* workflow.
+
 ### Learning Resouces
 - https://github.com/curran/screencasts/tree/gh-pages/introToAngular
 - https://www.codeschool.com/courses/shaping-up-with-angular-js
