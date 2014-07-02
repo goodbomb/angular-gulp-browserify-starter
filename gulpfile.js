@@ -41,9 +41,9 @@ var filePath = {
         watch: ['./app/app.less','./app/**/*.less'] 
     },
     images: { 
-        src: './app/assets/images/*', 
-        watch: ['./app/assets/images', './app/assets/images/*'],
-        dest: './dist/images/' 
+        src: './app/assets/images/*/**', 
+        watch: ['./app/assets/images/*', './app/assets/images/*/**'],
+        dest: './dist/images/'
     },
     vendorJS: { 
         // These files will be bundled into a single vendor.js file that's called at the bottom of index.html
@@ -173,6 +173,7 @@ gulp.task('styles', function () {
 // =======================================================================  
 gulp.task('images', function() {
     return gulp.src(filePath.images.src)
+        .on("error", handleError)
         .pipe(gulp.dest(filePath.images.dest))
         .pipe(notify({ message: 'Images task complete' }))
         .pipe(refresh(lrserver));
