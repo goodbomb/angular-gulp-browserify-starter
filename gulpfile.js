@@ -41,8 +41,8 @@ var filePath = {
         watch: ['./app/app.less','./app/**/*.less'] 
     },
     images: { 
-        src: './app/assets/images/*/**', 
-        watch: ['./app/assets/images/*', './app/assets/images/*/**'],
+        src: './app/assets/images/**/*', 
+        watch: ['./app/assets/images', './app/assets/images/**/*'],
         dest: './dist/images/'
     },
     vendorJS: { 

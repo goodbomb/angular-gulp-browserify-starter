@@ -5,11 +5,14 @@
     <meta name="viewport" content="width=device-width, maximum-scale = 1.0">
     <meta name="fragment" content="!" />
 
-    <title >SiteName - {{pageTitle}}</title>
+    <title>SiteName - {{pageTitle}}</title>
     <meta name="description" content="{{pageDescription}}">
 
     <link href="/vendor.css" rel="stylesheet">
     <link href="/app.css" rel="stylesheet">
+
+    <base href="/">
+    
   </head>
 
   <body ng-class="bodyClasses">
@@ -18,7 +21,7 @@
       <common-header></common-header>
 
       <section class="main">
-        <div ui-view></div>
+        <div ui-view autoscroll="true"></div>
       </section>
 
       <common-footer></common-footer>
