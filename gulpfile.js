@@ -10,7 +10,7 @@ var gulp            = require('gulp'),
     streamify       = require('gulp-streamify'),
     uglify          = require('gulp-uglify'),
     sourcemaps      = require('gulp-sourcemaps'),
-    less            = require('gulp-less-sourcemap'),
+    less            = require('gulp-less'),
     prefix          = require('gulp-autoprefixer'),
     minifyCSS       = require('gulp-minify-css'),
     notify          = require('gulp-notify'),
@@ -34,7 +34,13 @@ var filePath = {
     },
     browserify: { 
         src: './app/app.js',
-        watch: ['!./app/assets/libs/*.js','./app/*.js','./app/**/*.js', '/app/**/*.html'] 
+        watch: 
+        [
+            '!./app/assets/libs/*.js',
+            '!./app/assets/libs/**/*.js',
+            './app/*.js','./app/**/*.js', 
+            '/app/**/*.html'
+        ] 
     },
     styles: { 
         src: './app/app.less', 
@@ -43,26 +49,29 @@ var filePath = {
     images: { 
         src: './app/assets/images/**/*', 
         watch: ['./app/assets/images', './app/assets/images/**/*'],
-        dest: './dist/images/'
+        dest: './dist/images/' 
     },
     vendorJS: { 
         // These files will be bundled into a single vendor.js file that's called at the bottom of index.html
         src: 
         [
-            './libs/jquery/dist/jquery.min.js',
-            './libs/bootstrap/dist/js/bootstrap.min.js'
+            './libs/jquery/dist/jquery.js', // v2.1.1
+            './libs/bootstrap/dist/js/bootstrap.js' // v3.1.1
         ]
     },
     vendorCSS: { 
         src: 
         [
-            './libs/bootstrap/dist/css/bootstrap.css',
-            './libs/font-awesome/css/font-awesome.css'
+            './libs/bootstrap/dist/css/bootstrap.css', // v3.1.1
+            './libs/font-awesome/css/font-awesome.css' // v4.1.0
         ]
     },
     copyIndex: { 
         src: './app/index.html', 
         watch: './app/index.html' 
+    },
+    copyFavicon: { 
+        src: './app/favicon.png' 
     }
 };
 
@@ -85,7 +94,8 @@ var embedlr         = require('gulp-embedlr'),
     express         = require('express'),
     livereload      = require('connect-livereload'),
     livereloadport  = 35729,
-    serverport      = 5000,
+    serverportDev   = 5000,
+    serverportProd  = 5050,
     server          = express();
 
 server.use(livereload({port: livereloadport}));
@@ -93,7 +103,7 @@ server.use(livereload({port: livereloadport}));
 server.use(express.static('./dist'));
 // Redirects everything back to our index.html
 server.all('/*', function(req, res) {
-    res.sendfile('index.html', { root: './dist' });
+    res.sendfile('/', { root: './dist' });
 });
 
 
@@ -101,9 +111,15 @@ server.all('/*', function(req, res) {
 // Dev Server Task
 // =======================================================================  
 gulp.task('dev', function() {
-    server.listen(serverport);
+    server.listen(serverportDev);
     lrserver.listen(livereloadport);
     console.log('Server running at http://localhost:5000');
+});
+
+gulp.task('stage', function() {
+    server.listen(serverportProd);
+    lrserver.listen(livereloadport);
+    console.log('Server running at http://localhost:5050');
 });
 
 
@@ -111,7 +127,7 @@ gulp.task('dev', function() {
 // Clean out dist folder contents on build
 // =======================================================================  
 gulp.task('clean', function () {
-    return gulp.src(filePath.build.dest, {read: false})
+    return gulp.src(['!./dist/assets', './dist/*'], {read: false})
         .pipe(clean());
 });
 
@@ -127,20 +143,42 @@ gulp.task('lint', function() {
 
 
 // =======================================================================
-// Browserify
+// Browserify Bundle
 // =======================================================================  
-gulp.task('browserify', function() {
+gulp.task('bundle-dev', function() {
     var bundler = watchify(filePath.browserify.src);
 
     bundler.on('update', rebundle)
 
     function rebundle () {
         return bundler.bundle({ debug: true })
+
             .pipe(source('bundle.js'))
             .on("error", handleError)
             .pipe(buffer())
-            // Comment out the next line if you don't want to minify your app in your dev environment.
+            // Comment out the "Uglify" task if you don't want to minify your app in your dev environment. 
             // However, it can be useful to minify your app periodically to debug any problems with minification.
+            // .pipe(streamify(uglify()))
+            .pipe(sourcemaps.write())
+            .pipe(gulp.dest(filePath.build.dest))
+            .pipe(notify({ message: 'Browserify task complete' }))
+            .pipe(refresh(lrserver));
+    }
+
+    return rebundle()
+});
+
+gulp.task('bundle-prod', function() {
+    var bundler = watchify(filePath.browserify.src);
+
+    bundler.on('update', rebundle)
+
+    function rebundle () {
+        return bundler.bundle({ debug: true })
+            .pipe(sourcemaps.init())
+            .pipe(source('bundle.js'))
+            .on("error", handleError)
+            .pipe(buffer())
             .pipe(streamify(uglify()))
             .pipe(gulp.dest(filePath.build.dest))
             .pipe(notify({ message: 'Browserify task complete' }))
@@ -154,15 +192,28 @@ gulp.task('browserify', function() {
 // =======================================================================
 // Styles Task
 // =======================================================================  
-gulp.task('styles', function () {
+gulp.task('styles-dev', function () {
+    return gulp.src(filePath.styles.src)
+        .pipe(sourcemaps.init())
+        .pipe(less())
+        .on("error", handleError)
+        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"), {map: true})
+    //    .pipe(minifyCSS())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(filePath.build.dest))
+        .on("error", handleError)
+        .pipe(notify({ message: 'Styles task complete' }))
+        .pipe(refresh(lrserver));
+});
+
+gulp.task('styles-prod', function () {
     return gulp.src(filePath.styles.src)
         .pipe(less())
         .on("error", handleError)
-        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"))
+        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"), {map: true})
         .pipe(minifyCSS())
         .pipe(gulp.dest(filePath.build.dest))
         .on("error", handleError)
-        // This next line will be displayed twice - once for the CSS file and once for the source map
         .pipe(notify({ message: 'Styles task complete' }))
         .pipe(refresh(lrserver));
 });
@@ -175,7 +226,7 @@ gulp.task('images', function() {
     return gulp.src(filePath.images.src)
         .on("error", handleError)
         .pipe(gulp.dest(filePath.images.dest))
-        .pipe(notify({ message: 'Images task complete' }))
+        .pipe(notify({ message: 'Images copied' }))
         .pipe(refresh(lrserver));
 });
 
@@ -219,11 +270,21 @@ gulp.task('copyIndex', function () {
 
 
 // =======================================================================
+// Copy Favicon
+// =======================================================================  
+gulp.task('copyFavicon', function () {
+    return gulp.src(filePath.copyFavicon.src)
+        .pipe(gulp.dest(filePath.build.dest))
+        .pipe(notify({ message: 'favicon successfully copied' }));
+});
+
+
+// =======================================================================
 // Watch for changes
 // =======================================================================  
 gulp.task('watch', function () {
-    gulp.watch(filePath.browserify.watch, ['browserify']);
-    gulp.watch(filePath.styles.watch, ['styles']);
+    gulp.watch(filePath.browserify.watch, ['bundle-dev']);
+    gulp.watch(filePath.styles.watch, ['styles-dev']);
     gulp.watch(filePath.images.watch, ['images']);
     gulp.watch(filePath.vendorJS.src, ['vendorJS']);
     gulp.watch(filePath.vendorCSS.src, ['vendorCSS']);
@@ -238,11 +299,21 @@ gulp.task('watch', function () {
 gulp.task('build', function(callback) {
     runSequence(
         ['clean', 'lint'],
-        ['browserify', 'styles', 'images', 'vendorJS', 'vendorCSS', 'copyIndex'],
+        ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
         ['dev', 'watch'],
         callback
     );
 });
 
+gulp.task('prod-build', function(callback) {
+    runSequence(
+        ['clean', 'lint'],
+        ['bundle-prod', 'styles-prod', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
+        ['stage'],
+        callback
+    );
+});
 
-gulp.task('default',['build']);
+
+gulp.task('default',['build']); // run "gulp" in terminal to build the development app
+gulp.task('prod',['prod-build']); // run "gulp prod" in terminal to build the prod-ready app
