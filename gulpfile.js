@@ -215,7 +215,6 @@ gulp.task('styles-prod', function () {
         .pipe(gulp.dest(filePath.build.dest))
         .on("error", handleError)
         .pipe(notify({ message: 'Styles task complete' }))
-        .pipe(refresh(lrserver));
 });
 
 
