@@ -13,5 +13,8 @@ module.exports = angular.module('common',
         'ui.router',
         'ngAnimate',
         require('./components/header').name,
-        require('./components/footer').name
+        require('./components/footer').name,
+        require('./directives').name,
+        require('./resources').name,
+        require('./services').name
 	]);

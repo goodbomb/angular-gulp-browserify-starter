@@ -1,7 +1,8 @@
 'use strict';
 
-module.exports = function commonServiceName() {
-	return {
-		
-	};
+var ServiceName = function() {
+	
 };
+
+ServiceName.$inject = [''];
+module.exports = ServiceName;

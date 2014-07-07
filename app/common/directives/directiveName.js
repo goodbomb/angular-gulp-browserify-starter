@@ -1,9 +1,13 @@
 'use strict';
 
-module.exports = function commonDirectiveName() {
-	return {
-		templateUrl: require(''),
-		restrict: 'EA',
-		scope: true
-	};
+var directiveName = function() {
+    return {
+        restrict: 'EA',
+        link: function () {
+            
+        }
+    };
 };
+
+directiveName.$inject = [''];
+module.exports = directiveName;
