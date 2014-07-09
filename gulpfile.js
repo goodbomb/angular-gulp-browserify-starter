@@ -126,8 +126,13 @@ gulp.task('stage', function() {
 // =======================================================================
 // Clean out dist folder contents on build
 // =======================================================================  
-gulp.task('clean', function () {
-    return gulp.src(['!./dist/assets', './dist/*'], {read: false})
+gulp.task('clean-dev', function () {
+    return gulp.src(['./dist/*.js', './dist/*.css', './dist/*.html', './dist/*.png', './dist/*.ico'], {read: false})
+        .pipe(clean());
+});
+
+gulp.task('clean-full', function () {
+    return gulp.src(['./dist/*'], {read: false})
         .pipe(clean());
 });
 
@@ -295,24 +300,38 @@ gulp.task('watch', function () {
 // =======================================================================
 // Sequential Build Rendering
 // =======================================================================  
-gulp.task('build', function(callback) {
+
+// run "gulp" in terminal to build the DEV app
+gulp.task('build-dev', function(callback) {
     runSequence(
-        ['clean', 'lint'],
-        ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
+        ['clean-dev', 'lint'],
+        // images task is removed to speed up build time. Use "gulp build" to do a full re-build of the dev app.
+        ['bundle-dev', 'styles-dev', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
         ['dev', 'watch'],
         callback
     );
 });
 
-gulp.task('prod-build', function(callback) {
+// run "gulp prod" in terminal to build the PROD-ready app
+gulp.task('build-prod', function(callback) {
     runSequence(
-        ['clean', 'lint'],
+        ['clean-full', 'lint'],
         ['bundle-prod', 'styles-prod', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
         ['stage'],
         callback
     );
 });
 
+// run "gulp build" in terminal for a full re-build in DEV
+gulp.task('build', function(callback) {
+    runSequence(
+        ['clean-full', 'lint'],
+        ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
+        ['dev', 'watch'],
+        callback
+    );
+});
 
-gulp.task('default',['build']); // run "gulp" in terminal to build the development app
-gulp.task('prod',['prod-build']); // run "gulp prod" in terminal to build the prod-ready app
+
+gulp.task('default',['build-dev']); 
+gulp.task('prod',['build-prod']); 
