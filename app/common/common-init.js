@@ -14,9 +14,8 @@ function commonInit($rootScope, $state) {
 
 	// Make sure the page scrolls to the top on all state transitions
 	$rootScope.$on('$viewContentLoaded', function(){
-		if (document.readyState == "complete") {
+		if (document.readyState === 'complete') {
 			window.scrollTo(0, 0);
-			clearInterval(interval);
 		}
 	});
 
