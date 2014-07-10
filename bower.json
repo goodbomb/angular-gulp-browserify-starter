@@ -24,6 +24,8 @@
     "angular-resource": "latest",
     "angular-sanitize": "latest",
     "domready": "latest",
-    "alertify.js": "latest"
+    "alertify.js": "latest",
+    "lodash": "latest",
+    "restangular": "latest"
   }
 }
