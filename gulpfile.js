@@ -305,8 +305,8 @@ gulp.task('watch', function () {
 gulp.task('build-dev', function(callback) {
     runSequence(
         ['clean-dev', 'lint'],
-        // images task is removed to speed up build time. Use "gulp build" to do a full re-build of the dev app.
-        ['bundle-dev', 'styles-dev', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
+        // images and vendor tasks are removed to speed up build time. Use "gulp build" to do a full re-build of the dev app.
+        ['bundle-dev', 'styles-dev', 'copyIndex', 'copyFavicon'],
         ['dev', 'watch'],
         callback
     );
