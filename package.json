@@ -25,7 +25,7 @@
     "gulp": "3.8.x",
     "gulp-angular-templatecache": "1.2.x",
     "gulp-autoprefixer": "0.0.x",
-    "gulp-clean": "0.3.x",
+    "gulp-rimraf": "0.1.x",
     "gulp-concat": "2.2.x",
     "gulp-embedlr": "0.5.x",
     "gulp-jshint": "1.6.x",
