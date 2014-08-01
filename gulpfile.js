@@ -127,7 +127,7 @@ gulp.task('stage', function() {
 // Clean out dist folder contents on build
 // =======================================================================  
 gulp.task('clean-dev', function () {
-    return gulp.src(['./dist/*.js', './dist/*.css', './dist/*.html', './dist/*.png', './dist/*.ico'], {read: false})
+    return gulp.src(['!./dist/vendor.js', '!./dist/vendor.css', './dist/*.js', './dist/*.css', './dist/*.html', './dist/*.png', './dist/*.ico'], {read: false})
         .pipe(rimraf());
 });
 
