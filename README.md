@@ -54,7 +54,7 @@ Each Module is self-contained and the js files are exported, combined, and minif
 
 ```npm install``` and ```bower install```
 
-2) Once everything is installed all you have to do is run ```gulp``` and your new server will be running at ```http://localhost:5000``` (you can edit the port in the gulpFile).
+2) Once everything is installed all you have to do is run ```gulp build``` and your new server will be running at ```http://localhost:5000``` (you can edit the port in the gulpFile). To speed up gulp times, the standard ```gulp``` task does not include copying over static files. Using the standard ```gulp``` task will be useful for most cases, but if you need to rebuild the whole ```dist``` folder, use ```gulp build```.
 
 
 ### Working with this application structure
