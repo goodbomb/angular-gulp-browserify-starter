@@ -177,6 +177,8 @@ Instead of bloating the index.html file with a list of scripts and link tags, al
 For CSS files, add the path to the *VendorCSS* workflow.
 For JS files, add the path to the *VendorJS* workflow.
 
+NOTE: This is meant strictly for third party libraries that cannot be installed using ```npm install``` or ```bower install```. You should use one of those two methods primarily for installing third party libraries so that you can easily inject them into your modules.
+
 ### Learning Resouces
 - https://github.com/curran/screencasts/tree/gh-pages/introToAngular
 - https://www.codeschool.com/courses/shaping-up-with-angular-js
