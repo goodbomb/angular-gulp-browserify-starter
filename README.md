@@ -102,7 +102,7 @@ var home = {
     name: 'home',
     url: '/',
     template: '<div home-view></div>'
-},
+};
 var module2 = {
     name: 'module2',
     url: '/module2',
@@ -136,7 +136,7 @@ var home = {
     name: 'home',
     url: '/',
     template: '<div home-view></div>'
-},
+};
 var moduleName = {
     name: 'moduleName',
     url: '/moduleName',
@@ -153,9 +153,23 @@ $stateProvider.state(moduleName);
 require('./modules/moduleName').name
 ```
 
+Your end result should look something like this:
+```
+'use strict';
+
+require('angular');
+
+module.exports = angular.module('myApp',
+	[
+		require('./common/common').name,
+		require('./modules/moduleName').name
+	])
+	.config(require('./appConfig'));
+```
+
 After those steps are complete, you should be able to see the contents of your new module at the URL you specified in step 3.
 
-NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleConfig.js``` file where you will define module-specific states and options, and then require the sub-module in the module's ```index.js``` file.
+NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleConfig.js``` file where you will define module-specific states and options, and then require the sub-module in the module's ```index.js``` file. You could actually do this with the main ```modules``` directory, and use it to "require" all of your modules instead of app.js and simply call ```require('./modules').name``` instead of ```require('./modules/moduleName').name```. It's all up to you and how deep you want to go with the modularity.
 
 ### Adding Third Party Vendor JS and CSS files to the pipeline
 Instead of bloating the index.html file with a list of scripts and link tags, all CSS and Javascript files from Vendors are bundled and concatenated into single ```vendor.css``` and ```vendor.js``` files using the Gulp pipeline. To add vendor files to your workflow, all you have to do is access the ```Gulpfile.js``` and add the relative path to the file from the ```libs``` directory to the appropriate location in the *"File Paths"* section.
