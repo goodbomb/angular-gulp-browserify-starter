@@ -157,7 +157,6 @@ gulp.task('bundle-dev', function() {
 
     function rebundle () {
         return bundler.bundle({ debug: true })
-
             .pipe(source('bundle.js'))
             .on("error", handleError)
             .pipe(buffer())
@@ -180,7 +179,6 @@ gulp.task('bundle-prod', function() {
 
     function rebundle () {
         return bundler.bundle({ debug: true })
-            .pipe(sourcemaps.init())
             .pipe(source('bundle.js'))
             .on("error", handleError)
             .pipe(buffer())
