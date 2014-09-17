@@ -200,8 +200,6 @@ gulp.task('styles-dev', function () {
         .pipe(sourcemaps.init())
         .pipe(less())
         .on("error", handleError)
-        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"), {map: true})
-    //    .pipe(minifyCSS())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(filePath.build.dest))
         .on("error", handleError)
