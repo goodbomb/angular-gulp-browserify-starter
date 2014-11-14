@@ -98,6 +98,7 @@ server.all('/*', function(req, res) {
     res.sendfile('/', { root: filePath.build.dest });
 });
 
+// uncomment the "middleware" section when you are ready to connect to an API
 gulp.task('devServer', function() {
   connect.server({
     root: filePath.build.dest,
