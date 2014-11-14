@@ -162,7 +162,7 @@ gulp.task('bundle-dev', function() {
             .pipe(buffer())
             // Comment out the "Uglify" task if you don't want to minify your app in your dev environment. 
             // However, it can be useful to minify your app periodically to debug any problems with minification.
-            // .pipe(streamify(uglify()))
+            // .pipe(streamify(uglify({mangle: false})))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest(filePath.build.dest))
             .pipe(notify({ message: 'Browserify task complete' }))
@@ -182,7 +182,7 @@ gulp.task('bundle-prod', function() {
             .pipe(source('bundle.js'))
             .on("error", handleError)
             .pipe(buffer())
-            .pipe(streamify(uglify()))
+            .pipe(streamify(uglify({mangle: false})))
             .pipe(gulp.dest(filePath.build.dest))
             .pipe(notify({ message: 'Browserify task complete' }))
             .pipe(refresh(lrserver));
