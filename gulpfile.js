@@ -2,11 +2,11 @@
 // Gulp Plugins
 // =======================================================================
 var gulp            = require('gulp'),
+    connect         = require('gulp-connect'),
     gutil           = require('gulp-util'),
     jshint          = require('gulp-jshint'),
     stylish         = require('jshint-stylish'),
     concat          = require('gulp-concat'),
-    rimraf          = require('gulp-rimraf'),
     streamify       = require('gulp-streamify'),
     uglify          = require('gulp-uglify'),
     sourcemaps      = require('gulp-sourcemaps'),
@@ -14,9 +14,9 @@ var gulp            = require('gulp'),
     prefix          = require('gulp-autoprefixer'),
     minifyCSS       = require('gulp-minify-css'),
     notify          = require('gulp-notify'),
-    angularTplCache = require('gulp-angular-templatecache'),
     browserify      = require('browserify'),
     watchify        = require('watchify'),
+    del             = require('del'),
     source          = require('vinyl-source-stream'),
     buffer          = require('vinyl-buffer'),
     runSequence     = require('run-sequence');
@@ -86,40 +86,54 @@ function handleError(err) {
 
 
 // =======================================================================
-// Server Settings for local development (Express Server)
-// =======================================================================
-var embedlr         = require('gulp-embedlr'),
-    refresh         = require('gulp-livereload'),
-    lrserver        = require('tiny-lr')(),
-    express         = require('express'),
-    livereload      = require('connect-livereload'),
-    livereloadport  = 35728,
-    serverportDev   = 5000,
-    serverportProd  = 5050,
-    server          = express();
+// Server Task
+// =======================================================================  
+var express = require('express'),
+    server  = express();
 
-server.use(livereload({port: livereloadport}));
-// Use our 'dist' folder as rootfolder
-server.use(express.static('./dist'));
+// Server settings
+server.use(express.static(filePath.build.dest));
 // Redirects everything back to our index.html
 server.all('/*', function(req, res) {
-    res.sendfile('/', { root: './dist' });
+    res.sendfile('/', { root: filePath.build.dest });
 });
 
-
-// =======================================================================
-// Dev Server Task
-// =======================================================================  
-gulp.task('dev', function() {
-    server.listen(serverportDev);
-    lrserver.listen(livereloadport);
-    console.log('Server running at http://localhost:5000');
+gulp.task('devServer', function() {
+  connect.server({
+    root: filePath.build.dest,
+    fallback: filePath.build.dest + '/index.html',
+    port: 5000,
+    livereload: true
+    // ,
+    // middleware: function(connect, o) {
+    //     return [ (function() {
+    //         var url = require('url');
+    //         var proxy = require('proxy-middleware');
+    //         var options = url.parse('http://localhost:3000/'); // path to your dev API
+    //         options.route = '/api';
+    //         return proxy(options);
+    //     })() ];
+    // }
+  });
 });
 
-gulp.task('stage', function() {
-    server.listen(serverportProd);
-    lrserver.listen(livereloadport);
-    console.log('Server running at http://localhost:5050');
+gulp.task('prodServer', function() {
+  connect.server({
+    root: filePath.build.dest,
+    fallback: filePath.build.dest + '/index.html',
+    port: 5050,
+    livereload: true
+    // ,
+    // middleware: function(connect, o) {
+    //     return [ (function() {
+    //         var url = require('url');
+    //         var proxy = require('proxy-middleware');
+    //         var options = url.parse('https://api-staging.your-domain.com/'); // path to your staging API
+    //         options.route = '/api';
+    //         return proxy(options);
+    //     })() ];
+    // }
+  });
 });
 
 
@@ -127,13 +141,11 @@ gulp.task('stage', function() {
 // Clean out dist folder contents on build
 // =======================================================================  
 gulp.task('clean-dev', function () {
-    return gulp.src(['!./dist/vendor.js', '!./dist/vendor.css', './dist/*.js', './dist/*.css', './dist/*.html', './dist/*.png', './dist/*.ico'], {read: false})
-        .pipe(rimraf());
+    del(['!./dist/vendor.js', '!./dist/vendor.css', './dist/*.js', './dist/*.css', './dist/*.html', './dist/*.png', './dist/*.ico'])
 });
 
 gulp.task('clean-full', function () {
-    return gulp.src(['./dist/*'], {read: false})
-        .pipe(rimraf());
+    del(['./dist/*'])
 });
 
 
@@ -151,31 +163,31 @@ gulp.task('lint', function() {
 // Browserify Bundle
 // =======================================================================  
 gulp.task('bundle-dev', function() {
-    var bundler = watchify(filePath.browserify.src);
 
-    bundler.on('update', rebundle)
-
+    var entryFile = filePath.browserify.src,
+        bundler = watchify(entryFile);
+    
     function rebundle () {
         return bundler.bundle({ debug: true })
             .pipe(source('bundle.js'))
             .on("error", handleError)
             .pipe(buffer())
-            // Comment out the "Uglify" task if you don't want to minify your app in your dev environment. 
-            // However, it can be useful to minify your app periodically to debug any problems with minification.
-            // .pipe(streamify(uglify({mangle: false})))
-            .pipe(sourcemaps.write())
+            .pipe(sourcemaps.init({loadMaps: true}))
+            .pipe(sourcemaps.write(filePath.build.dest))
             .pipe(gulp.dest(filePath.build.dest))
             .pipe(notify({ message: 'Browserify task complete' }))
-            .pipe(refresh(lrserver));
+            .pipe(connect.reload());
     }
+
+    bundler.on('update', rebundle)
 
     return rebundle()
 });
 
 gulp.task('bundle-prod', function() {
-    var bundler = watchify(filePath.browserify.src);
 
-    bundler.on('update', rebundle)
+    var entryFile = filePath.browserify.src,
+        bundler = watchify(entryFile);
 
     function rebundle () {
         return bundler.bundle({ debug: true })
@@ -185,8 +197,10 @@ gulp.task('bundle-prod', function() {
             .pipe(streamify(uglify({mangle: false})))
             .pipe(gulp.dest(filePath.build.dest))
             .pipe(notify({ message: 'Browserify task complete' }))
-            .pipe(refresh(lrserver));
+            .pipe(connect.reload());
     }
+
+    bundler.on('update', rebundle)
 
     return rebundle()
 });
@@ -204,7 +218,7 @@ gulp.task('styles-dev', function () {
         .pipe(gulp.dest(filePath.build.dest))
         .on("error", handleError)
         .pipe(notify({ message: 'Styles task complete' }))
-        .pipe(refresh(lrserver));
+        .pipe(connect.reload());
 });
 
 gulp.task('styles-prod', function () {
@@ -227,7 +241,7 @@ gulp.task('images', function() {
         .on("error", handleError)
         .pipe(gulp.dest(filePath.images.dest))
         .pipe(notify({ message: 'Images copied' }))
-        .pipe(refresh(lrserver));
+        .pipe(connect.reload());
 });
 
 
@@ -254,7 +268,7 @@ gulp.task('vendorCSS', function () {
         .pipe(minifyCSS())
         .pipe(gulp.dest(filePath.build.dest))
         .pipe(notify({ message: 'VendorCSS task complete' }))
-        .pipe(refresh(lrserver));
+        .pipe(connect.reload());
 });
 
 
@@ -265,7 +279,7 @@ gulp.task('copyIndex', function () {
     return gulp.src(filePath.copyIndex.src)
         .pipe(gulp.dest(filePath.build.dest))
         .pipe(notify({ message: 'index.html successfully copied' }))
-        .pipe(refresh(lrserver));
+        .pipe(connect.reload());
 });
 
 
@@ -303,7 +317,7 @@ gulp.task('build-dev', function(callback) {
         ['clean-dev', 'lint'],
         // images and vendor tasks are removed to speed up build time. Use "gulp build" to do a full re-build of the dev app.
         ['bundle-dev', 'styles-dev', 'copyIndex', 'copyFavicon'],
-        ['dev', 'watch'],
+        ['devServer', 'watch'],
         callback
     );
 });
@@ -313,7 +327,7 @@ gulp.task('build-prod', function(callback) {
     runSequence(
         ['clean-full', 'lint'],
         ['bundle-prod', 'styles-prod', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
-        ['stage'],
+        ['prodServer'],
         callback
     );
 });
@@ -323,7 +337,7 @@ gulp.task('build', function(callback) {
     runSequence(
         ['clean-full', 'lint'],
         ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
-        ['dev', 'watch'],
+        ['devServer', 'watch'],
         callback
     );
 });
