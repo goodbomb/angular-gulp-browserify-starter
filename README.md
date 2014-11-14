@@ -50,9 +50,12 @@ Files are grouped structurally (each section of the app being self contained wit
 Each Module is self-contained and the js files are exported, combined, and minified through Browserify. Every LESS file from each module should be imported into the master ```app.less``` file in the root app directory. Likewise, each LESS file from a sub-module should be imported into the main ```module.less``` file. The main app.less file is then processed by Gulp and a css file with a source map is pushed to the ```dist``` folder.
 
 ### Setup Instructions
+
+*NOTE:* This starter kit assumes that you already have bower installed locally. If you don't, then run the following command first: ```npm install -g bower```
+
 1) Node Modules and Bower Components are not included in this repository to keep it light weight. After cloning or pulling changes from this repository, make sure to run the following commands in terminal:
 
-```npm install``` and ```bower install```
+```npm install``` and ```bower install``` in that order.
 
 2) Once everything is installed all you have to do is run ```gulp build``` and your new server will be running at ```http://localhost:5000``` (you can edit the port in the gulpFile). To speed up gulp times, the standard ```gulp``` task does not include copying over static files. Using the standard ```gulp``` task will be useful for most cases, but if you need to rebuild the whole ```dist``` folder, use ```gulp build```.
 
