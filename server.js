@@ -1,3 +1,5 @@
+// This is the PROD server config file used to serve your AngularJS app on a service like Heroku
+
 var express = require('express');
 var url = require('url');
 var proxy = require('proxy-middleware');
