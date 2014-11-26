@@ -174,7 +174,7 @@ gulp.task('bundle-dev', function() {
             .on("error", handleError)
             .pipe(buffer())
             .pipe(sourcemaps.init({loadMaps: true}))
-            .pipe(sourcemaps.write(filePath.build))
+            .pipe(sourcemaps.write('./'))
             .pipe(gulp.dest(filePath.build.dest))
             .pipe(notify({ message: 'Browserify task complete' }))
             .pipe(connect.reload());
