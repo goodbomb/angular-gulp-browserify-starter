@@ -99,7 +99,7 @@ server.all('/*', function(req, res) {
 });
 
 // uncomment the "middleware" section when you are ready to connect to an API
-gulp.task('devServer', function() {
+gulp.task('server', function() {
   connect.server({
     root: filePath.build.dest,
     fallback: filePath.build.dest + '/index.html',
@@ -111,25 +111,6 @@ gulp.task('devServer', function() {
     //         var url = require('url');
     //         var proxy = require('proxy-middleware');
     //         var options = url.parse('http://localhost:3000/'); // path to your dev API
-    //         options.route = '/api';
-    //         return proxy(options);
-    //     })() ];
-    // }
-  });
-});
-
-gulp.task('prodServer', function() {
-  connect.server({
-    root: filePath.build.dest,
-    fallback: filePath.build.dest + '/index.html',
-    port: 5050,
-    livereload: true
-    // ,
-    // middleware: function(connect, o) {
-    //     return [ (function() {
-    //         var url = require('url');
-    //         var proxy = require('proxy-middleware');
-    //         var options = url.parse('https://api-staging.your-domain.com/'); // path to your staging API
     //         options.route = '/api';
     //         return proxy(options);
     //     })() ];
@@ -226,7 +207,7 @@ gulp.task('styles-prod', function () {
     return gulp.src(filePath.styles.src)
         .pipe(less())
         .on("error", handleError)
-        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7"), {map: true})
+        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7", {map: true}))
         .pipe(minifyCSS())
         .pipe(gulp.dest(filePath.build.dest))
         .on("error", handleError)
@@ -318,7 +299,7 @@ gulp.task('build-dev', function(callback) {
         ['clean-dev', 'lint'],
         // images and vendor tasks are removed to speed up build time. Use "gulp build" to do a full re-build of the dev app.
         ['bundle-dev', 'styles-dev', 'copyIndex', 'copyFavicon'],
-        ['devServer', 'watch'],
+        ['server', 'watch'],
         callback
     );
 });
@@ -328,7 +309,7 @@ gulp.task('build-prod', function(callback) {
     runSequence(
         ['clean-full', 'lint'],
         ['bundle-prod', 'styles-prod', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
-        ['prodServer'],
+        ['server'],
         callback
     );
 });
@@ -338,7 +319,7 @@ gulp.task('build', function(callback) {
     runSequence(
         ['clean-full', 'lint'],
         ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
-        ['devServer', 'watch'],
+        ['server', 'watch'],
         callback
     );
 });
