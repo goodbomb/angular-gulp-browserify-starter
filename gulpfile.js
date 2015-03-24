@@ -1,9 +1,9 @@
+'use strict';
 // =======================================================================
 // Gulp Plugins
 // =======================================================================
 var gulp            = require('gulp'),
     connect         = require('gulp-connect'),
-    gutil           = require('gulp-util'),
     jshint          = require('gulp-jshint'),
     stylish         = require('jshint-stylish'),
     concat          = require('gulp-concat'),
@@ -26,52 +26,52 @@ var gulp            = require('gulp'),
 // File Paths
 // =======================================================================
 var filePath = {
-    build: { 
-        dest: './dist' 
+    build: {
+        dest: './dist'
     },
-    lint: { 
-        src: ['./app/*.js', './app/**/*.js'] 
+    lint: {
+        src: ['./app/*.js', './app/**/*.js']
     },
-    browserify: { 
+    browserify: {
         src: './app/app.js',
-        watch: 
+        watch:
         [
             '!./app/assets/libs/*.js',
             '!./app/assets/libs/**/*.js',
-            './app/*.js','./app/**/*.js', 
+            './app/*.js','./app/**/*.js',
             '/app/**/*.html'
-        ] 
+        ]
     },
-    styles: { 
-        src: './app/app.less', 
-        watch: ['./app/app.less','./app/**/*.less'] 
+    styles: {
+        src: './app/app.less',
+        watch: ['./app/app.less','./app/**/*.less']
     },
-    images: { 
-        src: './app/assets/images/**/*', 
+    images: {
+        src: './app/assets/images/**/*',
         watch: ['./app/assets/images', './app/assets/images/**/*'],
-        dest: './dist/images/' 
+        dest: './dist/images/'
     },
-    vendorJS: { 
+    vendorJS: {
         // These files will be bundled into a single vendor.js file that's called at the bottom of index.html
-        src: 
+        src:
         [
             './libs/jquery/dist/jquery.js', // v2.1.1
             './libs/bootstrap/dist/js/bootstrap.js' // v3.1.1
         ]
     },
-    vendorCSS: { 
-        src: 
+    vendorCSS: {
+        src:
         [
             './libs/bootstrap/dist/css/bootstrap.css', // v3.1.1
             './libs/font-awesome/css/font-awesome.css' // v4.1.0
         ]
     },
-    copyIndex: { 
-        src: './app/index.html', 
-        watch: './app/index.html' 
+    copyIndex: {
+        src: './app/index.html',
+        watch: './app/index.html'
     },
-    copyFavicon: { 
-        src: './app/favicon.png' 
+    copyFavicon: {
+        src: './app/favicon.png'
     }
 };
 
@@ -100,22 +100,22 @@ server.all('/*', function(req, res) {
 
 // uncomment the "middleware" section when you are ready to connect to an API
 gulp.task('server', function() {
-  connect.server({
-    root: filePath.build.dest,
-    fallback: filePath.build.dest + '/index.html',
-    port: 5000,
-    livereload: true
-    // ,
-    // middleware: function(connect, o) {
-    //     return [ (function() {
-    //         var url = require('url');
-    //         var proxy = require('proxy-middleware');
-    //         var options = url.parse('http://localhost:3000/'); // path to your dev API
-    //         options.route = '/api';
-    //         return proxy(options);
-    //     })() ];
-    // }
-  });
+    connect.server({
+        root: filePath.build.dest,
+        fallback: filePath.build.dest + '/index.html',
+        port: 5000,
+        livereload: true
+        // ,
+        // middleware: function(connect, o) {
+        //     return [ (function() {
+        //         var url = require('url');
+        //         var proxy = require('proxy-middleware');
+        //         var options = url.parse('http://localhost:3000/'); // path to your dev API
+        //         options.route = '/api';
+        //         return proxy(options);
+        //     })() ];
+        // }
+    });
 });
 
 
@@ -123,11 +123,11 @@ gulp.task('server', function() {
 // Clean out dist folder contents on build
 // =======================================================================  
 gulp.task('clean-dev', function () {
-    del(['./dist/*.js', './dist/*.css', '!./dist/vendor.js', '!./dist/vendor.css', './dist/*.html', './dist/*.png', './dist/*.ico'])
+    del(['./dist/*.js', './dist/*.css', '!./dist/vendor.js', '!./dist/vendor.css', './dist/*.html', './dist/*.png', './dist/*.ico']);
 });
 
 gulp.task('clean-full', function () {
-    del(['./dist/*'])
+    del(['./dist/*']);
 });
 
 
@@ -152,7 +152,7 @@ gulp.task('bundle-dev', function() {
     function rebundle () {
         return bundler.bundle({ debug: true })
             .pipe(source('bundle.js'))
-            .on("error", handleError)
+            .on('error', handleError)
             .pipe(buffer())
             .pipe(sourcemaps.init({loadMaps: true}))
             .pipe(sourcemaps.write('./'))
@@ -161,9 +161,9 @@ gulp.task('bundle-dev', function() {
             .pipe(connect.reload());
     }
 
-    bundler.on('update', rebundle)
+    bundler.on('update', rebundle);
 
-    return rebundle()
+    return rebundle();
 });
 
 gulp.task('bundle-prod', function() {
@@ -174,7 +174,7 @@ gulp.task('bundle-prod', function() {
     function rebundle () {
         return bundler.bundle({ debug: true })
             .pipe(source('bundle.js'))
-            .on("error", handleError)
+            .on('error', handleError)
             .pipe(buffer())
             .pipe(streamify(uglify({mangle: false})))
             .pipe(gulp.dest(filePath.build.dest))
@@ -182,9 +182,9 @@ gulp.task('bundle-prod', function() {
             .pipe(connect.reload());
     }
 
-    bundler.on('update', rebundle)
+    bundler.on('update', rebundle);
 
-    return rebundle()
+    return rebundle();
 });
 
 
@@ -195,10 +195,10 @@ gulp.task('styles-dev', function () {
     return gulp.src(filePath.styles.src)
         .pipe(sourcemaps.init())
         .pipe(less())
-        .on("error", handleError)
+        .on('error', handleError)
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(filePath.build.dest))
-        .on("error", handleError)
+        .on('error', handleError)
         .pipe(notify({ message: 'Styles task complete' }))
         .pipe(connect.reload());
 });
@@ -206,12 +206,12 @@ gulp.task('styles-dev', function () {
 gulp.task('styles-prod', function () {
     return gulp.src(filePath.styles.src)
         .pipe(less())
-        .on("error", handleError)
-        .pipe(prefix("last 1 version", "> 1%", "ie 8", "ie 7", {map: true}))
+        .on('error', handleError)
+        .pipe(prefix('last 1 version', '> 1%', 'ie 8', 'ie 7', {map: true}))
         .pipe(minifyCSS())
         .pipe(gulp.dest(filePath.build.dest))
-        .on("error", handleError)
-        .pipe(notify({ message: 'Styles task complete' }))
+        .on('error', handleError)
+        .pipe(notify({ message: 'Styles task complete' }));
 });
 
 
@@ -220,7 +220,7 @@ gulp.task('styles-prod', function () {
 // =======================================================================  
 gulp.task('images', function() {
     return gulp.src(filePath.images.src)
-        .on("error", handleError)
+        .on('error', handleError)
         .pipe(gulp.dest(filePath.images.dest))
         .pipe(notify({ message: 'Images copied' }))
         .pipe(connect.reload());
@@ -232,8 +232,8 @@ gulp.task('images', function() {
 // =======================================================================  
 gulp.task('vendorJS', function () {
     return gulp.src(filePath.vendorJS.src)
-        .pipe(concat("vendor.js"))
-        .on("error", handleError)
+        .pipe(concat('vendor.js'))
+        .on('error', handleError)
         .pipe(uglify())
         .pipe(gulp.dest(filePath.build.dest))
         .pipe(notify({ message: 'VendorJS task complete' }))
@@ -245,8 +245,8 @@ gulp.task('vendorJS', function () {
 // =======================================================================  
 gulp.task('vendorCSS', function () {
     return gulp.src(filePath.vendorCSS.src)
-        .pipe(concat("vendor.css"))
-        .on("error", handleError)
+        .pipe(concat('vendor.css'))
+        .on('error', handleError)
         .pipe(minifyCSS())
         .pipe(gulp.dest(filePath.build.dest))
         .pipe(notify({ message: 'VendorCSS task complete' }))
@@ -325,5 +325,5 @@ gulp.task('build', function(callback) {
 });
 
 
-gulp.task('default',['build-dev']); 
+gulp.task('default',['build-dev']);
 gulp.task('prod',['build-prod']); 
