@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = angular.module('common.components.commonFooter', [])
+module.exports = angular.module('common.elements.commonFooter', [])
 	.directive('commonFooter', function () {
 		return {
 			template: require('./common-footer.html'),

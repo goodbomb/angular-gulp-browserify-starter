@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = angular.module('common.components.commonHeader', [])
+module.exports = angular.module('common.elements.commonHeader', [])
 	.directive('commonHeader', function () {
 		return {
 			template: require('./common-header.html'),
