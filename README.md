@@ -11,8 +11,8 @@ Files are grouped structurally (each section of the app being self contained wit
 --- /assets
 ------ /images
 --- /common
------- /components (common page elements like footer and header)
 ------ /directives
+------ /elements (common page elements like footer and header)
 ------ /resources
 ------ /services
 ------ /styles
@@ -175,12 +175,12 @@ After those steps are complete, you should be able to see the contents of your n
 NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleConfig.js``` file where you will define module-specific states and options, and then require the sub-module in the module's ```index.js``` file. You could actually do this with the main ```modules``` directory, and use it to "require" all of your modules instead of app.js and simply call ```require('./modules').name``` instead of ```require('./modules/moduleName').name```. It's all up to you and how deep you want to go with the modularity.
 
 ### Adding Third Party Vendor JS and CSS files to the pipeline
+NOTE: ```Vendor.js``` is meant strictly for third party libraries that cannot be installed using ```npm install``` or ```bower install``` and are thus difficult to use with Angular's Dependency Injection. You should use one of those two methods primarily for installing third party libraries so that you can easily inject them into your modules. If you have to manually install a library without NPM or Bower, or you can't inject the library into your app for whatever reason, then you should use this approach.
+
 Instead of bloating the index.html file with a list of scripts and link tags, all CSS and Javascript files from Vendors are bundled and concatenated into single ```vendor.css``` and ```vendor.js``` files using the Gulp pipeline. To add vendor files to your workflow, all you have to do is access the ```Gulpfile.js``` and add the relative path to the file from the ```libs``` directory to the appropriate location in the *"File Paths"* section.
 
 For CSS files, add the path to the *VendorCSS* workflow.
 For JS files, add the path to the *VendorJS* workflow.
-
-NOTE: This is meant strictly for third party libraries that cannot be installed using ```npm install``` or ```bower install```. You should use one of those two methods primarily for installing third party libraries so that you can easily inject them into your modules.
 
 ### Learning Resouces
 - https://github.com/curran/screencasts/tree/gh-pages/introToAngular
