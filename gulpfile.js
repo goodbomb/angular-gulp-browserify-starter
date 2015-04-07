@@ -304,7 +304,6 @@ gulp.task('copyFavicon', function () {
 // Watch for changes
 // =======================================================================  
 gulp.task('watch', function () {
-    gulp.watch(filePath.browserify.watch, ['bundle-dev']);
     gulp.watch(filePath.styles.watch, ['styles-dev']);
     gulp.watch(filePath.images.watch, ['images']);
     gulp.watch(filePath.vendorJS.src, ['vendorJS']);
