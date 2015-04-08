@@ -174,7 +174,7 @@ After those steps are complete, you should be able to see the contents of your n
 
 NOTE: This same process applies to sub-modules, except you will treat the module directory as the root path, create a ```moduleConfig.js``` file where you will define module-specific states and options, and then require the sub-module in the module's ```index.js``` file. You could actually do this with the main ```modules``` directory, and use it to "require" all of your modules instead of app.js and simply call ```require('./modules').name``` instead of ```require('./modules/moduleName').name```. It's all up to you and how deep you want to go with the modularity.
 
-### Adding Third Party Vendor JS and CSS files to the pipeline
+### Adding Third Party Vendor JS and CSS files to your app
 NOTE: As of version 1.2 of this project, the behaviour of the ```vendor.js``` file has changed.
 
 Instead of bloating the index.html file with a list of scripts and link tags, all CSS and Javascript files from Vendors are bundled and concatenated into single ```vendor.css``` and ```vendor.js``` files using the Gulp pipeline. To add vendor files to your workflow, all you have to do is access the ```Gulpfile.js``` file and add the relative path to the vendor file (found in the ```libs``` or ```node_modules``` directories) to the appropriate location in the *"File Paths"* section.
