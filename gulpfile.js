@@ -55,8 +55,18 @@ var filePath = {
         // These files will be bundled into a single vendor.js file that's called at the bottom of index.html
         src:
         [
-            './libs/jquery/dist/jquery.js', // v2.1.1
-            './libs/bootstrap/dist/js/bootstrap.js' // v3.1.1
+            './libs/angular/angular.js',
+            './libs/angular-animate/angular-animate.js',
+            './libs/angular-bootstrap/ui-bootstrap-tpls.js',
+            './libs/angular-cookies/angular-cookies.js',
+            './libs/angular-resource/angular-resource.js',
+            './libs/angular-sanitize/angular-sanitize.js',
+            './libs/angular-ui-router/release/angular-ui-router.js',
+            './libs/bootstrap/dist/js/bootstrap.js',
+            './libs/domready/ready.js',
+            './libs/jquery/dist/jquery.js',
+            './libs/lodash/lodash.js',
+            './libs/restangular/dist/restangular.js'
         ]
     },
     vendorCSS: {
@@ -149,6 +159,10 @@ gulp.task('bundle-dev', function() {
     var entryFile = filePath.browserify.src,
         bundler = watchify(entryFile);
     
+    filePath.vendorJS.src.forEach(function (lib) {
+        bundler.external(lib);
+    });
+
     function rebundle () {
         return bundler.bundle({ debug: true })
             .pipe(source('bundle.js'))
@@ -170,6 +184,10 @@ gulp.task('bundle-prod', function() {
 
     var entryFile = filePath.browserify.src,
         bundler = watchify(entryFile);
+
+    filePath.vendorJS.src.forEach(function (lib) {
+        bundler.external(lib);
+    });
 
     function rebundle () {
         return bundler.bundle({ debug: true })
@@ -231,12 +249,19 @@ gulp.task('images', function() {
 // Vendor JS Task
 // =======================================================================  
 gulp.task('vendorJS', function () {
-    return gulp.src(filePath.vendorJS.src)
-        .pipe(concat('vendor.js'))
+    var b = browserify();
+
+    filePath.vendorJS.src.forEach(function (lib) {
+        b.require(lib);
+    });
+
+    return b.bundle({ debug: true})
+        .pipe(source('vendor.js'))
         .on('error', handleError)
+        .pipe(buffer())
         .pipe(uglify())
         .pipe(gulp.dest(filePath.build.dest))
-        .pipe(notify({ message: 'VendorJS task complete' }))
+        .pipe(notify({ message: 'VendorJS task complete' }));
 });
 
 
@@ -279,7 +304,6 @@ gulp.task('copyFavicon', function () {
 // Watch for changes
 // =======================================================================  
 gulp.task('watch', function () {
-    gulp.watch(filePath.browserify.watch, ['bundle-dev']);
     gulp.watch(filePath.styles.watch, ['styles-dev']);
     gulp.watch(filePath.images.watch, ['images']);
     gulp.watch(filePath.vendorJS.src, ['vendorJS']);
