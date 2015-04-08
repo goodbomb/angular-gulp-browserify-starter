@@ -6,6 +6,7 @@ var gulp            = require('gulp'),
     connect         = require('gulp-connect'),
     jshint          = require('gulp-jshint'),
     stylish         = require('jshint-stylish'),
+    jscs            = require('gulp-jscs'),
     concat          = require('gulp-concat'),
     streamify       = require('gulp-streamify'),
     uglify          = require('gulp-uglify'),
@@ -65,7 +66,7 @@ var filePath = {
             './libs/bootstrap/dist/js/bootstrap.js',
             './libs/domready/ready.js',
             './libs/jquery/dist/jquery.js',
-            './libs/lodash/lodash.js',
+            './libs/lodash/dist/lodash.js',
             './libs/restangular/dist/restangular.js'
         ]
     },
@@ -148,6 +149,15 @@ gulp.task('lint', function() {
     return gulp.src(filePath.lint.src)
     .pipe(jshint())
     .pipe(jshint.reporter(stylish));
+});
+
+
+// =======================================================================
+// Javascript Checkstyles (JSCS)
+// =======================================================================
+gulp.task('checkstyle', function() {
+    return gulp.src(filePath.lint.src)
+        .pipe(jscs());
 });
 
 
@@ -320,7 +330,7 @@ gulp.task('watch', function () {
 // run "gulp" in terminal to build the DEV app
 gulp.task('build-dev', function(callback) {
     runSequence(
-        ['clean-dev', 'lint'],
+        ['clean-dev', 'lint', 'checkstyle'],
         // images and vendor tasks are removed to speed up build time. Use "gulp build" to do a full re-build of the dev app.
         ['bundle-dev', 'styles-dev', 'copyIndex', 'copyFavicon'],
         ['server', 'watch'],
@@ -331,7 +341,7 @@ gulp.task('build-dev', function(callback) {
 // run "gulp prod" in terminal to build the PROD-ready app
 gulp.task('build-prod', function(callback) {
     runSequence(
-        ['clean-full', 'lint'],
+        ['clean-full', 'lint', 'checkstyle'],
         ['bundle-prod', 'styles-prod', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
         ['server'],
         callback
@@ -341,7 +351,7 @@ gulp.task('build-prod', function(callback) {
 // run "gulp build" in terminal for a full re-build in DEV
 gulp.task('build', function(callback) {
     runSequence(
-        ['clean-full', 'lint'],
+        ['clean-full', 'lint', 'checkstyle'],
         ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
         ['server', 'watch'],
         callback

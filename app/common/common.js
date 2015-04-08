@@ -12,7 +12,7 @@ require('lodash');
 require('restangular');
 
 module.exports = angular.module('common',
-	[
+    [
         'ui.bootstrap',
         'ui.router',
         'ngAnimate',
@@ -24,4 +24,4 @@ module.exports = angular.module('common',
         require('./directives').name,
         require('./resources').name,
         require('./services').name
-	]);
+    ]);

@@ -1,6 +1,6 @@
 {
   "name": "AngularJS-Gulp-Browserify-Starter",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Base AngularJS application with gulp and browserify",
   "main": "app.js",
   "repository": {
@@ -23,11 +23,12 @@
   },
   "browser": {},
   "devDependencies": {
+    "gulp-jscs": "^1.4.0",
     "jshint-stylish": "^0.2.0",
     "karma": "^0.12.x",
+    "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.x",
     "karma-mocha": "^0.1.x",
-    "karma-chai": "^0.1.0",
     "karma-sinon": "^1.0.4",
     "protractor": "^1.2.0"
   },

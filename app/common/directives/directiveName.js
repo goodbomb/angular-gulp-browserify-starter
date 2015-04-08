@@ -3,8 +3,8 @@
 var directiveName = function() {
     return {
         restrict: 'EA',
-        link: function () {
-            
+        link: function() {
+
         }
     };
 };

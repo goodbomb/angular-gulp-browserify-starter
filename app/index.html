@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html ng-app="myApp">
-  <head>
-    <base href="/">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, maximum-scale = 1.0">
-    <meta name="fragment" content="!" />
+    <head>
+        <base href="/">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, maximum-scale = 1.0">
+        <meta name="fragment" content="!" />
 
-    <title ng-bind="'SiteName - ' + pageTitle"></title>
-    <meta name="description" content="{{pageDescription}}">
+        <title ng-bind="'SiteName - ' + pageTitle"></title>
+        <meta name="description" content="{{pageDescription}}">
 
-    <link href="/vendor.css" rel="stylesheet">
-    <link href="/app.css" rel="stylesheet">
-  </head>
+        <link href="/vendor.css" rel="stylesheet">
+        <link href="/app.css" rel="stylesheet">
+    </head>
 
-  <body ng-class="bodyClasses" ng-controller="MainCtrl">
+    <body ng-class="bodyClasses" ng-controller="MainCtrl">
 
-    <div class="page">
-      <common-header></common-header>
+        <div class="page">
+            <common-header></common-header>
 
-      <section class="main">
-        <div ui-view autoscroll="false" id="ui-view"></div>
-      </section>
+            <section class="main">
+                <div ui-view autoscroll="false" id="ui-view"></div>
+            </section>
 
-      <common-footer></common-footer>
-    </div>
+            <common-footer></common-footer>
+        </div>
 
-    <script src="/vendor.js"></script>
-    <script src="/bundle.js"></script>
-    
-  </body>
+        <script src="/vendor.js"></script>
+        <script src="/bundle.js"></script>
+
+    </body>
 
 </html>
