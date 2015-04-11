@@ -82,7 +82,7 @@ $stateProvider
     .state('home', {
       url: '/',
       templateUrl: './modules/home/home.html',
-      controller: './modules/home/homeController.js'
+      controller: './modules/home/HomeController.js'
     })
 ...
 ```

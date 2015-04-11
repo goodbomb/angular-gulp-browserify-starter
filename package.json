@@ -1,6 +1,6 @@
 {
   "name": "AngularJS-Gulp-Browserify-Starter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Base AngularJS application with gulp and browserify",
   "main": "app.js",
   "repository": {
