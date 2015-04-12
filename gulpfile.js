@@ -20,7 +20,8 @@ var gulp            = require('gulp'),
     del             = require('del'),
     source          = require('vinyl-source-stream'),
     buffer          = require('vinyl-buffer'),
-    runSequence     = require('run-sequence');
+    runSequence     = require('run-sequence'),
+    karma           = require('karma').server;
 
 
 // =======================================================================
@@ -39,6 +40,7 @@ var filePath = {
         [
             '!./app/assets/libs/*.js',
             '!./app/assets/libs/**/*.js',
+            '!./app/**/*.spec.js',
             './app/*.js','./app/**/*.js',
             '/app/**/*.html'
         ]
@@ -66,7 +68,7 @@ var filePath = {
             './libs/bootstrap/dist/js/bootstrap.js',
             './libs/domready/ready.js',
             './libs/jquery/dist/jquery.js',
-            './libs/lodash/dist/lodash.js',
+            './libs/lodash/lodash.js',
             './libs/restangular/dist/restangular.js'
         ]
     },
@@ -324,6 +326,17 @@ gulp.task('watch', function () {
 
 
 // =======================================================================
+// Watch for changes
+// =======================================================================
+gulp.task('test', function (done) {
+    karma.start({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done);
+});
+
+
+// =======================================================================
 // Sequential Build Rendering
 // =======================================================================  
 
@@ -360,4 +373,4 @@ gulp.task('build', function(callback) {
 
 
 gulp.task('default',['build-dev']);
-gulp.task('prod',['build-prod']); 
+gulp.task('prod',['build-prod']);
