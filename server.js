@@ -11,7 +11,7 @@ server.set('port', (process.env.PORT || 5000));
 server.use(express.static(__dirname + '/dist'));
 
 server.listen(server.get('port'), function() {
-    console.log("Node app is running at localhost:" + server.get('port'));
+  console.log("Node app is running at localhost:" + server.get('port'));
 });
 
 // Proxy settings for connecting to API
