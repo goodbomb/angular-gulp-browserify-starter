@@ -12,14 +12,14 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai', 'sinon'],
+    frameworks: ['browserify', 'mocha', 'chai', 'sinon'],
 
     // list of files / patterns to load in the browser
     files: [
       './libs/angular/angular.js',
       './libs/angular-mocks/angular-mocks.js', // for angular.mock.module and inject.
-      // './dist/bundle.js', // application sources
-      './app/**/*.spec.js' // test files
+      './app/**/*.js',
+      './app/**/*.spec.js'
     ],
 
     // list of files to exclude
@@ -27,7 +27,19 @@ module.exports = function(config) {
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {},
+    preprocessors: {
+      // './dist/bundle.js': ['browserify'],
+      './app/**/*.js': ['browserify']
+    },
+
+    // karma-browserify configuration
+    browserify: {
+      debug: true,
+      transform: ['debowerify'],
+
+      // don't forget to register the extensions
+      extensions: ['.js']
+    },
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -49,7 +61,10 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: [
+      // 'Chrome',
+      'PhantomJS'
+    ],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits

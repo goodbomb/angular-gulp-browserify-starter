@@ -1,20 +1,32 @@
+//jscs:disable requireSpaceAfterLineComment
+//jscs:disable requireCapitalizedComments
+/*jshint expr: true*/
+
 'use strict';
 
-// module.exports = function() {
+// var MainCtrl = require('./MainController');
 
-  describe('MainController', function() {
+describe('MainController', function() {
 
-    var MainCtrl, $scope;
+    var ctrl, scope;
 
-    beforeEach( inject( function( $controller, $rootScope ) {
-      $scope = $rootScope.$new();
-      MainCtrl = $controller( 'MainCtrl', { $scope: $scope });
-    }));
+    beforeEach(function() {
+        // ctrl = new MainController();
+        // angular.mock.module('modules');
 
-    it('should pass a dummy test', function(){
-      expect( MainCtrl ).to.not.be.undefined;
-      expect(false).to.be.false;
+        // // mock the controller
+        angular.mock.inject(function($rootScope, $controller) {
+            scope = $rootScope.$new();
+            ctrl = $controller('MainCtrl', {$scope: scope});
+        });
     });
 
-  });
-// };
+
+    it('should exist', function() {
+        // expect(ctrl).to.not.be.undefined;
+        expect(true).to.be.true;
+    });
+
+});
+
+console.log('is this working?');

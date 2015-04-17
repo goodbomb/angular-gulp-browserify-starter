@@ -21,6 +21,7 @@ var gulp = require('gulp'),
   source = require('vinyl-source-stream'),
   buffer = require('vinyl-buffer'),
   runSequence = require('run-sequence'),
+  mocha = require('gulp-mocha'),
   karma = require('karma').server;
 
 // =======================================================================
@@ -347,10 +348,20 @@ gulp.task('watch', function() {
 // =======================================================================
 gulp.task('karma', function(done) {
   karma.start({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: false
+    configFile: __dirname + '/karma.conf.js'
   }, done);
 });
+
+
+// =======================================================================
+// Mocha Configuration
+// =======================================================================
+gulp.task('spec', function () {
+  return gulp.src(__dirname + '/app/**/*.spec.js', {read: false})
+    // gulp-mocha needs filepaths so you can't have any plugins before it
+    .pipe(mocha({reporter: 'spec'}));
+});
+
 
 // =======================================================================
 // Sequential Build Rendering
