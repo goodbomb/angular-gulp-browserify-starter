@@ -10,7 +10,7 @@ describe('MainController', function() {
 
     beforeEach(function() {
 
-        angular.mock.inject(function ($controller, $rootScope) {
+        angular.mock.inject(function($controller, $rootScope) {
             scope = $rootScope.$new();
             ctrl = $controller('MainCtrl', {
                 $scope: scope

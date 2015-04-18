@@ -168,6 +168,7 @@ gulp.task('checkstyle', function() {
 
 // Dev
 gulp.task('bundle-dev', function() {
+
     var entryFile = filePath.browserify.src,
         b = browserify({
             entries: entryFile,
@@ -176,6 +177,7 @@ gulp.task('bundle-dev', function() {
             packageCache: {}
         }),
         bundler = watchify(b);
+
     filePath.vendorJS.src.forEach(function(lib) {
         bundler.external(lib);
     });
@@ -195,12 +197,15 @@ gulp.task('bundle-dev', function() {
         }))
         .pipe(connect.reload());
     }
+
     bundler.on('update', rebundle);
+
     return rebundle();
 });
 
 // Prod
 gulp.task('bundle-prod', function() {
+
     var entryFile = filePath.browserify.src,
         b = browserify({
             entries: entryFile,
@@ -209,6 +214,7 @@ gulp.task('bundle-prod', function() {
             packageCache: {}
         }),
         bundler = watchify(b);
+
     filePath.vendorJS.src.forEach(function(lib) {
         bundler.external(lib);
     });
@@ -227,7 +233,9 @@ gulp.task('bundle-prod', function() {
         }))
         .pipe(connect.reload());
     }
+
     bundler.on('update', rebundle);
+
     return rebundle();
 });
 
@@ -286,14 +294,16 @@ gulp.task('vendorJS', function() {
     var b = browserify({
         debug: true
     });
+
     filePath.vendorJS.src.forEach(function(lib) {
         b.require(lib);
     });
+    
     return b.bundle()
     .pipe(source('vendor.js'))
     .on('error', handleError)
     .pipe(buffer())
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest(filePath.build.dest))
     .pipe(notify({
         message: 'VendorJS task complete'
