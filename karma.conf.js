@@ -1,58 +1,73 @@
 // Karma configuration
 
-/*jshint node:true*/
-
 'use strict';
 
-module.exports = function(config) {
-  config.set({
+module.exports = function (config) {
 
-    // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: './',
+    config.set({
 
-    // frameworks to use
-    // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai', 'sinon'],
+        // base path that will be used to resolve all patterns (eg. files, exclude)
+        basePath: './',
 
-    // list of files / patterns to load in the browser
-    files: [
-      './libs/angular/angular.js',
-      './libs/angular-mocks/angular-mocks.js', // for angular.mock.module and inject.
-      // './dist/bundle.js', // application sources
-      './app/**/*.spec.js' // test files
-    ],
+        // frameworks to use
+        // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+        frameworks: ['browserify', 'mocha', 'chai', 'sinon'],
 
-    // list of files to exclude
-    exclude: [],
+        // list of files / patterns to load in the browser
+        files: [
+            './libs/angular/angular.js',
+            './libs/angular-mocks/angular-mocks.js', // for angular.mock.module and inject.
+            './app/**/*.js'
+        ],
 
-    // preprocess matching files before serving them to the browser
-    // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {},
+        // list of files to exclude
+        exclude: [],
 
-    // test results reporter to use
-    // possible values: 'dots', 'progress'
-    // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+        // preprocess matching files before serving them to the browser
+        // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+        preprocessors: {
+            // './dist/bundle.js': ['browserify'],
+            './app/**/*.js': ['browserify']
+        },
 
-    // web server port
-    port: 9876,
+        // karma-browserify configuration
 
-    // enable / disable colors in the output (reporters and logs)
-    colors: true,
+        browserify: {
+            debug: true,
+            transform: ['debowerify'],
 
-    // level of logging
-    // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+            // don't forget to register the extensions
+            extensions: ['.js']
+        },
 
-    // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: true,
+        // test results reporter to use
+        // possible values: 'dots', 'progress'
+        // available reporters: https://npmjs.org/browse/keyword/karma-reporter
+        reporters: ['progress'],
 
-    // start these browsers
-    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+        // web server port
+        port: 9876,
 
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
-  });
+        // enable / disable colors in the output (reporters and logs)
+        colors: true,
+
+        // level of logging
+        // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
+        logLevel: config.LOG_INFO,
+
+        // enable / disable watching file and executing tests whenever any file changes
+        autoWatch: true,
+
+        // start these browsers
+        // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+        browsers: [
+            // 'Chrome',
+            'PhantomJS'
+        ],
+
+        // Continuous Integration mode
+        // if true, Karma captures browsers, runs the tests and exits
+        singleRun: false
+
+    });
 };

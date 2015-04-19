@@ -13,7 +13,6 @@
     "disallowSpacesInsideParentheses": true,
     "disallowTrailingWhitespace": true,
     "requireCamelCaseOrUpperCaseIdentifiers": true,
-    "requireCapitalizedComments": true,
     "requireCapitalizedConstructors": true,
     "requireCurlyBraces": true,
     "requireSpaceAfterKeywords": [
@@ -37,7 +36,7 @@
     "requireSpacesInFunction": {
         "beforeOpeningCurlyBrace": true
     },
-    "validateIndentation": 2,
+    "validateIndentation": 4,
     "validateLineBreaks": "LF",
     "validateQuoteMarks": "'"
 }
