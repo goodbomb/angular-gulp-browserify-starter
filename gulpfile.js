@@ -63,9 +63,9 @@ var filePath = {
             './libs/angular-resource/angular-resource.js',
             './libs/angular-sanitize/angular-sanitize.js',
             './libs/angular-ui-router/release/angular-ui-router.js',
+            './libs/jquery/dist/jquery.js',
             './libs/bootstrap/dist/js/bootstrap.js',
             './libs/domready/ready.js',
-            './libs/jquery/dist/jquery.js',
             './libs/lodash/lodash.js',
             './libs/restangular/dist/restangular.js'
         ]
@@ -374,20 +374,6 @@ gulp.task('karma', function(done) {
 
 
 // =======================================================================
-// Mocha Configuration
-// =======================================================================
-gulp.task('spec', function() {
-    return gulp.src(__dirname + '/app/**/*.spec.js', {
-        read: false
-    })
-    // gulp-mocha needs filepaths so you can't have any plugins before it
-    .pipe(mocha({
-        reporter: 'spec'
-    }));
-});
-
-
-// =======================================================================
 // Sequential Build Rendering
 // =======================================================================
 
@@ -404,7 +390,8 @@ gulp.task('build-dev', function(callback) {
 // run "gulp test" in terminal to build the DEV app
 gulp.task('build-test', function(callback) {
     runSequence(
-        ['build-dev', 'karma'],
+        ['build-dev'],
+        ['karma'],
         callback
     );
 });
@@ -412,7 +399,9 @@ gulp.task('build-test', function(callback) {
 // run "gulp prod" in terminal to build the PROD-ready app
 gulp.task('build-prod', function(callback) {
     runSequence(
-        ['clean-full', 'lint', 'checkstyle'], ['bundle-prod', 'styles-prod', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'], ['server'],
+        ['clean-full', 'lint', 'checkstyle'],
+        ['bundle-prod', 'styles-prod', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
+        ['server'],
         callback
     );
 });
@@ -420,7 +409,9 @@ gulp.task('build-prod', function(callback) {
 // run "gulp build" in terminal for a full re-build in DEV
 gulp.task('build', function(callback) {
     runSequence(
-        ['clean-full', 'lint', 'checkstyle'], ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'], ['server', 'watch'],
+        ['clean-full', 'lint', 'checkstyle'],
+        ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
+        ['server', 'watch'],
         callback
     );
 });

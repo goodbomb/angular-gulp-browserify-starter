@@ -2,7 +2,7 @@
 
 'use strict';
 
-describe('MainController', function() {
+describe('HomeController', function() {
 
     var ctrl, scope;
 
@@ -12,7 +12,7 @@ describe('MainController', function() {
 
         angular.mock.inject(function($controller, $rootScope) {
             scope = $rootScope.$new();
-            ctrl = $controller('MainCtrl', {
+            ctrl = $controller('HomeCtrl', {
                 $scope: scope
             });
         });
@@ -21,7 +21,6 @@ describe('MainController', function() {
 
     it('should exist', function() {
         expect(ctrl).to.not.be.undefined;
-        expect(scope.test).to.be.null;
     });
 
 });

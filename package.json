@@ -1,6 +1,6 @@
 {
   "name": "AngularJS-Gulp-Browserify-Starter",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Base AngularJS application with gulp and browserify",
   "main": "app.js",
   "repository": {
@@ -10,7 +10,7 @@
   "authors": "Ben Scott <bscott@tekalstudios.com>",
   "private": false,
   "engines": {
-    "node": "0.10.32"
+    "node": "0.10.38"
   },
   "scripts": {
     "start": "node server.js",
