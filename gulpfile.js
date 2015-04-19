@@ -15,14 +15,12 @@ var gulp = require('gulp'),
     prefix = require('gulp-autoprefixer'),
     minifyCSS = require('gulp-minify-css'),
     notify = require('gulp-notify'),
-    gutil = require('gulp-util'),
     browserify = require('browserify'),
     watchify = require('watchify'),
     del = require('del'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     runSequence = require('run-sequence'),
-    mocha = require('gulp-mocha'),
     karma = require('karma').server;
 
 
@@ -403,6 +401,14 @@ gulp.task('build-dev', function(callback) {
     );
 });
 
+// run "gulp test" in terminal to build the DEV app
+gulp.task('build-test', function(callback) {
+    runSequence(
+        ['build-dev', 'karma'],
+        callback
+    );
+});
+
 // run "gulp prod" in terminal to build the PROD-ready app
 gulp.task('build-prod', function(callback) {
     runSequence(
@@ -420,4 +426,5 @@ gulp.task('build', function(callback) {
 });
 
 gulp.task('default', ['build-dev']);
+gulp.task('test', ['build-test']);
 gulp.task('prod', ['build-prod']);

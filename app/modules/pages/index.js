@@ -1,7 +1,7 @@
 'use strict';
-// Home View
+
 module.exports = angular.module('modules.pages', [
         require('./about').name
     ])
-    .config(require('./pagesConfig'))
+    .config(require('./pagesRoutes'))
     .controller('PagesCtrl', require('./PagesController'));

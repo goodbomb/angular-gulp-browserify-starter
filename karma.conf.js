@@ -17,8 +17,7 @@ module.exports = function (config) {
         files: [
             './libs/angular/angular.js',
             './libs/angular-mocks/angular-mocks.js', // for angular.mock.module and inject.
-            './app/**/*.js',
-            './app/**/*.spec.js'
+            './app/**/*.js'
         ],
 
         // list of files to exclude

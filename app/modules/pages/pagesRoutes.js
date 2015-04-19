@@ -3,8 +3,8 @@
 function pageRoutes($stateProvider) {
 
     var about = {
-        name: 'about',
-        url: '/about',
+        name: 'pages.about',
+        url: '^/about', // The ^ character makes this url override the parent url
         template: '<div about-view></div>',
         data: {
             moduleClasses: 'page',
