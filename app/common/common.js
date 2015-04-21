@@ -21,6 +21,7 @@ module.exports = angular.module('common',
         'restangular',
         require('./elements/header').name,
         require('./elements/footer').name,
+        require('./constants').name,
         require('./directives').name,
         require('./resources').name,
         require('./services').name

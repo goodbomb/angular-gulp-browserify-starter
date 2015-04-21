@@ -1,6 +1,6 @@
 'use strict';
 
-function modulesRoutes($stateProvider) {
+function homeRoutes($stateProvider) {
 
     var home = {
         name: 'home', // state name
@@ -14,18 +14,9 @@ function modulesRoutes($stateProvider) {
         }
     };
 
-    var pages = {
-        name: 'pages',
-        abstract: true,  // This makes it so that the url for this route doesn't actually resolve
-        url: '/pages',
-        template: '<div ui-view></div>', // This injects a new ui-view that the about page directive is injected into
-        controller: 'PagesCtrl'
-    };
-
     $stateProvider.state(home);
-    $stateProvider.state(pages);
 
 }
 
-modulesRoutes.$inject = ['$stateProvider'];
-module.exports = modulesRoutes;
+homeRoutes.$inject = ['$stateProvider'];
+module.exports = homeRoutes;
