@@ -287,10 +287,6 @@ gulp.task('vendorJS', function() {
         debug: true,
         require: filePath.vendorJS.src
     });
-
-    filePath.vendorJS.src.forEach(function(lib) {
-        b.require(lib);
-    });
     
     return b.bundle()
     .pipe(source('vendor.js'))
