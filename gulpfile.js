@@ -170,15 +170,12 @@ gulp.task('bundle-dev', function() {
     var entryFile = filePath.browserify.src,
         b = browserify({
             entries: entryFile,
+            external: filePath.vendorJS.src,
             debug: true,
             cache: {},
             packageCache: {}
         }),
         bundler = watchify(b);
-
-    filePath.vendorJS.src.forEach(function(lib) {
-        bundler.external(lib);
-    });
 
     function rebundle() {
         return bundler.bundle()
@@ -207,15 +204,12 @@ gulp.task('bundle-prod', function() {
     var entryFile = filePath.browserify.src,
         b = browserify({
             entries: entryFile,
+            external: filePath.vendorJS.src,
             debug: true,
             cache: {},
             packageCache: {}
         }),
         bundler = watchify(b);
-
-    filePath.vendorJS.src.forEach(function(lib) {
-        bundler.external(lib);
-    });
 
     function rebundle() {
         return bundler.bundle()
@@ -290,7 +284,8 @@ gulp.task('images', function() {
 // =======================================================================  
 gulp.task('vendorJS', function() {
     var b = browserify({
-        debug: true
+        debug: true,
+        require: filePath.vendorJS.src
     });
 
     filePath.vendorJS.src.forEach(function(lib) {
@@ -301,7 +296,7 @@ gulp.task('vendorJS', function() {
     .pipe(source('vendor.js'))
     .on('error', handleError)
     .pipe(buffer())
-    // .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest(filePath.build.dest))
     .pipe(notify({
         message: 'VendorJS task complete'
