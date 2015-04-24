@@ -167,15 +167,14 @@ gulp.task('checkstyle', function() {
 // Dev
 gulp.task('bundle-dev', function() {
 
-    var entryFile = filePath.browserify.src,
-        b = browserify({
-            entries: entryFile,
-            external: filePath.vendorJS.src,
-            debug: true,
-            cache: {},
-            packageCache: {}
-        }),
-        bundler = watchify(b);
+    var b = browserify({
+        entries: filePath.browserify.src,
+        external: filePath.vendorJS.src,
+        debug: true,
+        cache: {},
+        packageCache: {}
+    });
+    var bundler = watchify(b);
 
     function rebundle() {
         return bundler.bundle()
@@ -201,15 +200,14 @@ gulp.task('bundle-dev', function() {
 // Prod
 gulp.task('bundle-prod', function() {
 
-    var entryFile = filePath.browserify.src,
-        b = browserify({
-            entries: entryFile,
-            external: filePath.vendorJS.src,
-            debug: true,
-            cache: {},
-            packageCache: {}
-        }),
-        bundler = watchify(b);
+    var b = browserify({
+        entries: filePath.browserify.src,
+        external: filePath.vendorJS.src,
+        debug: true,
+        cache: {},
+        packageCache: {}
+    });
+    var bundler = watchify(b);
 
     function rebundle() {
         return bundler.bundle()
