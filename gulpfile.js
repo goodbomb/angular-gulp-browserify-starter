@@ -156,7 +156,8 @@ gulp.task('lint', function() {
 // =======================================================================
 gulp.task('checkstyle', function() {
     return gulp.src(filePath.lint.src)
-    .pipe(jscs());
+    .pipe(jscs())
+    .on('error', handleError);
 });
 
 
@@ -348,6 +349,7 @@ gulp.task('watch', function() {
     gulp.watch(filePath.vendorJS.src, ['vendorJS']);
     gulp.watch(filePath.vendorCSS.src, ['vendorCSS']);
     gulp.watch(filePath.copyIndex.watch, ['copyIndex']);
+    gulp.watch(filePath.lint.src, ['checkstyle']);
     console.log('Watching...');
 });
 
