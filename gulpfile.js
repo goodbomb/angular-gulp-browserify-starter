@@ -53,6 +53,10 @@ var filePath = {
         watch: ['./app/assets/images', './app/assets/images/**/*'],
         dest: './dist/images/'
     },
+    fonts: {
+        src: './libs/font-awesome/fonts/*',
+        dest: './dist/fonts'
+    },
     vendorJS: {
         // These files will be bundled into a single vendor.js file that's called at the bottom of index.html
         src: [
@@ -279,6 +283,18 @@ gulp.task('images', function() {
 
 
 // =======================================================================
+// Fonts Task
+// =======================================================================  
+gulp.task('fonts', function () {
+    'use strict';
+    return gulp.src(filePath.fonts.src)
+        .on('error', handleError)
+        .pipe(gulp.dest(filePath.fonts.dest))
+        .pipe(connect.reload());
+});
+
+
+// =======================================================================
 // Vendor JS Task
 // =======================================================================  
 gulp.task('vendorJS', function() {
@@ -391,7 +407,7 @@ gulp.task('build-test', function(callback) {
 gulp.task('build-prod', function(callback) {
     runSequence(
         ['clean-full', 'lint', 'checkstyle'],
-        ['bundle-prod', 'styles-prod', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
+        ['bundle-prod', 'styles-prod', 'images', 'fonts', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
         ['server'],
         callback
     );
@@ -401,7 +417,7 @@ gulp.task('build-prod', function(callback) {
 gulp.task('build', function(callback) {
     runSequence(
         ['clean-full', 'lint', 'checkstyle'],
-        ['bundle-dev', 'styles-dev', 'images', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
+        ['bundle-dev', 'styles-dev', 'images', 'fonts', 'vendorJS', 'vendorCSS', 'copyIndex', 'copyFavicon'],
         ['server', 'watch'],
         callback
     );
