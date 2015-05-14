@@ -48,14 +48,16 @@ var filePath = {
         src: './app/app.less',
         watch: ['./app/app.less', './app/**/*.less']
     },
-    images: {
-        src: './app/assets/images/**/*',
-        watch: ['./app/assets/images', './app/assets/images/**/*'],
-        dest: './dist/images/'
-    },
-    fonts: {
-        src: './libs/font-awesome/fonts/*',
-        dest: './dist/fonts'
+    assets: {
+        images: {
+            src: './app/assets/images/**/*',
+            watch: ['./app/assets/images', './app/assets/images/**/*'],
+            dest: './dist/images/'
+        },
+        fonts: {
+            src: ['./libs/font-awesome/fonts/*'],
+            dest: './dist/fonts/'
+        }
     },
     vendorJS: {
         // These files will be bundled into a single vendor.js file that's called at the bottom of index.html
@@ -272,9 +274,9 @@ gulp.task('styles-prod', function() {
 // Images Task
 // =======================================================================  
 gulp.task('images', function() {
-    return gulp.src(filePath.images.src)
+    return gulp.src(filePath.assets.images.src)
     .on('error', handleError)
-    .pipe(gulp.dest(filePath.images.dest))
+    .pipe(gulp.dest(filePath.assets.images.dest))
     .pipe(notify({
         message: 'Images copied'
     }))
@@ -287,9 +289,9 @@ gulp.task('images', function() {
 // =======================================================================  
 gulp.task('fonts', function () {
     'use strict';
-    return gulp.src(filePath.fonts.src)
+    return gulp.src(filePath.assets.fonts.src)
         .on('error', handleError)
-        .pipe(gulp.dest(filePath.fonts.dest))
+        .pipe(gulp.dest(filePath.assets.fonts.dest))
         .pipe(connect.reload());
 });
 
@@ -361,7 +363,7 @@ gulp.task('copyFavicon', function() {
 // =======================================================================  
 gulp.task('watch', function() {
     gulp.watch(filePath.styles.watch, ['styles-dev']);
-    gulp.watch(filePath.images.watch, ['images']);
+    gulp.watch(filePath.assets.images.watch, ['images']);
     gulp.watch(filePath.vendorJS.src, ['vendorJS']);
     gulp.watch(filePath.vendorCSS.src, ['vendorCSS']);
     gulp.watch(filePath.copyIndex.watch, ['copyIndex']);
