@@ -240,12 +240,24 @@ gulp.task('bundle-prod', function() {
 // =======================================================================
 // Styles Task
 // =======================================================================  
-gulp.task('styles-dev', function() {
+gulp.task('styles-dev-debug', function() {
     return gulp.src(filePath.styles.src)
     .pipe(sourcemaps.init())
     .pipe(less())
     .on('error', handleError)
     .pipe(sourcemaps.write())
+    .pipe(gulp.dest(filePath.build.dest))
+    .on('error', handleError)
+    .pipe(notify({
+        message: 'Styles task complete'
+    }))
+    .pipe(connect.reload());
+});
+
+gulp.task('styles-dev', function() {
+    return gulp.src(filePath.styles.src)
+    .pipe(less())
+    .on('error', handleError)
     .pipe(gulp.dest(filePath.build.dest))
     .on('error', handleError)
     .pipe(notify({
@@ -396,6 +408,16 @@ gulp.task('build-dev', function(callback) {
     );
 });
 
+// run "gulp styles-debug" in terminal to build the DEV app and load source maps for better style debugging.
+gulp.task('build-dev-style-debug', function(callback) {
+    runSequence(
+        ['clean-dev', 'lint', 'checkstyle'],
+        // images and vendor tasks are removed to speed up build time. Use "gulp build" to do a full re-build of the dev app.
+        ['bundle-dev', 'styles-dev-debug', 'copyIndex', 'copyFavicon'], ['server', 'watch'],
+        callback
+    );
+});
+
 // run "gulp test" in terminal to build the DEV app
 gulp.task('build-test', function(callback) {
     runSequence(
@@ -425,6 +447,7 @@ gulp.task('build', function(callback) {
     );
 });
 
+gulp.task('styles-debug', ['build-dev-style-debug']);
 gulp.task('default', ['build-dev']);
 gulp.task('test', ['build-test']);
 gulp.task('prod', ['build-prod']);
