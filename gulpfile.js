@@ -399,7 +399,7 @@ gulp.task('build-dev', function(callback) {
 // run "gulp test" in terminal to build the DEV app
 gulp.task('build-test', function(callback) {
     runSequence(
-        ['build-dev'],
+        ['build'],
         ['karma'],
         callback
     );

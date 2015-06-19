@@ -26,8 +26,8 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            // './dist/bundle.js': ['browserify'],
-            './app/**/*.js': ['browserify']
+            './app/**/*.js': ['browserify'],
+            './app/**/!(*spec)*.js': ['coverage']
         },
 
         // karma-browserify configuration
@@ -41,9 +41,14 @@ module.exports = function (config) {
         },
 
         // test results reporter to use
-        // possible values: 'dots', 'progress'
+        // possible values: 'dots', 'progress', 'spec'
         // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-        reporters: ['spec'],
+        reporters: ['spec', 'coverage'],
+
+        coverageReporter: {
+            type: 'html',
+            dir: './dist/reports/coverage'
+        },
 
         // web server port
         port: 9876,
