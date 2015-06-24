@@ -26,15 +26,14 @@ module.exports = function (config) {
         // preprocess matching files before serving them to the browser
         // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
         preprocessors: {
-            './app/**/*.js': ['browserify'],
-            './app/**/!(*spec)*.js': ['coverage']
+            './app/**/!(*spec)*.js': ['browserify']
         },
 
         // karma-browserify configuration
 
         browserify: {
             debug: true,
-            transform: ['debowerify'],
+            transform: ['debowerify', 'html2js-browserify', 'browserify-istanbul'],
 
             // don't forget to register the extensions
             extensions: ['.js']
@@ -47,7 +46,7 @@ module.exports = function (config) {
 
         coverageReporter: {
             type: 'html',
-            dir: './dist/reports/coverage'
+            dir: './reports/coverage'
         },
 
         // web server port

@@ -139,7 +139,15 @@ gulp.task('server', function() {
 // Clean out dist folder contents on build
 // =======================================================================  
 gulp.task('clean-dev', function() {
-    del(['./dist/*.js', './dist/*.css', '!./dist/vendor.js', '!./dist/vendor.css', './dist/*.html', './dist/*.png', './dist/*.ico']);
+    del(['./dist/*.js',
+        './dist/*.css',
+        '!./dist/vendor.js',
+        '!./dist/vendor.css',
+        './dist/*.html',
+        './dist/*.png',
+        './dist/*.ico',
+        './reports/**/*',
+        './reports']);
 });
 
 gulp.task('clean-full', function() {
@@ -399,7 +407,7 @@ gulp.task('build-dev', function(callback) {
 // run "gulp test" in terminal to build the DEV app
 gulp.task('build-test', function(callback) {
     runSequence(
-        ['build'],
+        ['build-dev'],
         ['karma'],
         callback
     );

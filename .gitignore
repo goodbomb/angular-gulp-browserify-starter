@@ -1,5 +1,6 @@
 # Compiled Server Files
 dist
+reports
 
 # Third Party Dependencies
 bower_components

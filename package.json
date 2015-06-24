@@ -13,8 +13,7 @@
     "node": "0.10.38"
   },
   "scripts": {
-    "start": "node server.js",
-    "postinstall": "node_modules/.bin/bower install"
+    "start": "node server.js"
   },
   "browserify": {
     "transform": [
@@ -27,6 +26,7 @@
     "bower": "latest",
     "browserify": "^9.0.3",
     "browserify-shim": "^3.8.5",
+    "browserify-istanbul": "^0.2.1",
     "chai": "^2.2.0",
     "debowerify": "^1.2.1",
     "del": "^0.1.3",
