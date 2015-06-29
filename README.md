@@ -56,7 +56,7 @@ Each Module is self-contained and the js files are exported, combined, and minif
 
 ### Setup Instructions
 
-*NOTE:* This starter kit assumes that you already have bower (http://bower.io/) installed locally. If you don't, then run the following command first: ```npm install -g bower```
+*NOTE:* This starter kit assumes that you already have bower (http://bower.io/) and gulp (http://gulpjs.com/) installed locally. If you don't, then run the following command first: ```npm install -g bower gulp```
 
 1) Node Modules and Bower Components are not included in this repository to keep it light weight. After cloning or pulling changes from this repository, make sure to run the following command in terminal: ```npm install```
 
