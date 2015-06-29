@@ -174,45 +174,45 @@ gulp.task('checkstyle', function() {
 
 var bundle = {};
 bundle.conf = {
-  entries: filePath.browserify.src,
-  external: filePath.vendorJS.src,
-  debug: true,
-  cache: {},
-  packageCache: {}
+    entries: filePath.browserify.src,
+    external: filePath.vendorJS.src,
+    debug: true,
+    cache: {},
+    packageCache: {}
 };
 
 function rebundle() {
-  return bundle.bundler.bundle()
-    .pipe(source('bundle.js'))
-    .on('error', handleError)
-    .pipe(buffer())
-    .pipe(gulpif(!bundle.prod, sourcemaps.init({
-      loadMaps: true
-    })))
-    .pipe(gulpif(!bundle.prod, sourcemaps.write('./')))
-    .pipe(gulpif(bundle.prod, streamify(uglify({
-      mangle: false
-    }))))
-    .pipe(gulp.dest(filePath.build.dest))
-    .pipe(connect.reload());
+    return bundle.bundler.bundle()
+        .pipe(source('bundle.js'))
+        .on('error', handleError)
+        .pipe(buffer())
+        .pipe(gulpif(!bundle.prod, sourcemaps.init({
+            loadMaps: true
+        })))
+        .pipe(gulpif(!bundle.prod, sourcemaps.write('./')))
+        .pipe(gulpif(bundle.prod, streamify(uglify({
+            mangle: false
+        }))))
+        .pipe(gulp.dest(filePath.build.dest))
+        .pipe(connect.reload());
 }
 
 function configureBundle(prod) {
-  bundle.bundler = watchify(browserify(bundle.conf));
-  bundle.bundler.on('update', rebundle);
-  bundle.prod = prod;
+    bundle.bundler = watchify(browserify(bundle.conf));
+    bundle.bundler.on('update', rebundle);
+    bundle.prod = prod;
 }
 
 gulp.task('bundle-dev', function () {
-  'use strict';
-  configureBundle(false);
-  return rebundle();
+    'use strict';
+    configureBundle(false);
+    return rebundle();
 });
 
 gulp.task('bundle-prod', function () {
-  'use strict';
-  configureBundle(true);
-  return rebundle();
+    'use strict';
+    configureBundle(true);
+    return rebundle();
 });
 
 
