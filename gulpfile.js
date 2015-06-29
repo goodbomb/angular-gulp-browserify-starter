@@ -21,7 +21,8 @@ var gulp = require('gulp'),
     source = require('vinyl-source-stream'),
     buffer = require('vinyl-buffer'),
     runSequence = require('run-sequence'),
-    karma = require('karma').server;
+    karma = require('karma').server,
+    gulpif = require('gulp-if');
 
 
 // =======================================================================
@@ -103,7 +104,7 @@ function handleError(err) {
 
 // =======================================================================
 // Server Task
-// =======================================================================  
+// =======================================================================
 var express = require('express'),
     server = express();
 // Server settings
@@ -137,7 +138,7 @@ gulp.task('server', function() {
 
 // =======================================================================
 // Clean out dist folder contents on build
-// =======================================================================  
+// =======================================================================
 gulp.task('clean-dev', function() {
     del(['./dist/*.js',
         './dist/*.css',
@@ -177,77 +178,55 @@ gulp.task('checkstyle', function() {
 
 // =======================================================================
 // Browserify Bundle
-// =======================================================================  
+// =======================================================================
 
-// Dev
-gulp.task('bundle-dev', function() {
+var bundle = {};
+bundle.conf = {
+    entries: filePath.browserify.src,
+    external: filePath.vendorJS.src,
+    debug: true,
+    cache: {},
+    packageCache: {}
+};
 
-    var b = browserify({
-        entries: filePath.browserify.src,
-        external: filePath.vendorJS.src,
-        debug: true,
-        cache: {},
-        packageCache: {}
-    });
-    var bundler = watchify(b);
-
-    function rebundle() {
-        return bundler.bundle()
+function rebundle() {
+    return bundle.bundler.bundle()
         .pipe(source('bundle.js'))
         .on('error', handleError)
         .pipe(buffer())
-        .pipe(sourcemaps.init({
+        .pipe(gulpif(!bundle.prod, sourcemaps.init({
             loadMaps: true
-        }))
-        .pipe(sourcemaps.write('./'))
+        })))
+        .pipe(gulpif(!bundle.prod, sourcemaps.write('./')))
+        .pipe(gulpif(bundle.prod, streamify(uglify({
+            mangle: false
+        }))))
         .pipe(gulp.dest(filePath.build.dest))
-        .pipe(notify({
-            message: 'Browserify task complete'
-        }))
         .pipe(connect.reload());
-    }
+}
 
-    bundler.on('update', rebundle);
+function configureBundle(prod) {
+    bundle.bundler = watchify(browserify(bundle.conf));
+    bundle.bundler.on('update', rebundle);
+    bundle.prod = prod;
+}
 
+gulp.task('bundle-dev', function () {
+    'use strict';
+    configureBundle(false);
     return rebundle();
 });
 
-// Prod
-gulp.task('bundle-prod', function() {
-
-    var b = browserify({
-        entries: filePath.browserify.src,
-        external: filePath.vendorJS.src,
-        debug: true,
-        cache: {},
-        packageCache: {}
-    });
-    var bundler = watchify(b);
-
-    function rebundle() {
-        return bundler.bundle()
-        .pipe(source('bundle.js'))
-        .on('error', handleError)
-        .pipe(buffer())
-        .pipe(streamify(uglify({
-            mangle: false
-        })))
-        .pipe(gulp.dest(filePath.build.dest))
-        .pipe(notify({
-            message: 'Browserify task complete'
-        }))
-        .pipe(connect.reload());
-    }
-
-    bundler.on('update', rebundle);
-
+gulp.task('bundle-prod', function () {
+    'use strict';
+    configureBundle(true);
     return rebundle();
 });
 
 
 // =======================================================================
 // Styles Task
-// =======================================================================  
+// =======================================================================
 gulp.task('styles-dev', function() {
     return gulp.src(filePath.styles.src)
     .pipe(sourcemaps.init())
@@ -280,7 +259,7 @@ gulp.task('styles-prod', function() {
 
 // =======================================================================
 // Images Task
-// =======================================================================  
+// =======================================================================
 gulp.task('images', function() {
     return gulp.src(filePath.assets.images.src)
     .on('error', handleError)
@@ -294,7 +273,7 @@ gulp.task('images', function() {
 
 // =======================================================================
 // Fonts Task
-// =======================================================================  
+// =======================================================================
 gulp.task('fonts', function () {
     'use strict';
     return gulp.src(filePath.assets.fonts.src)
@@ -306,13 +285,13 @@ gulp.task('fonts', function () {
 
 // =======================================================================
 // Vendor JS Task
-// =======================================================================  
+// =======================================================================
 gulp.task('vendorJS', function() {
     var b = browserify({
         debug: true,
         require: filePath.vendorJS.src
     });
-    
+
     return b.bundle()
     .pipe(source('vendor.js'))
     .on('error', handleError)
@@ -327,7 +306,7 @@ gulp.task('vendorJS', function() {
 
 // =======================================================================
 // Vendor CSS Task
-// =======================================================================  
+// =======================================================================
 gulp.task('vendorCSS', function() {
     return gulp.src(filePath.vendorCSS.src)
     .pipe(concat('vendor.css'))
@@ -343,7 +322,7 @@ gulp.task('vendorCSS', function() {
 
 // =======================================================================
 // Copy index.html
-// =======================================================================  
+// =======================================================================
 gulp.task('copyIndex', function() {
     return gulp.src(filePath.copyIndex.src)
     .pipe(gulp.dest(filePath.build.dest))
@@ -356,7 +335,7 @@ gulp.task('copyIndex', function() {
 
 // =======================================================================
 // Copy Favicon
-// =======================================================================  
+// =======================================================================
 gulp.task('copyFavicon', function() {
     return gulp.src(filePath.copyFavicon.src)
     .pipe(gulp.dest(filePath.build.dest))
@@ -368,7 +347,7 @@ gulp.task('copyFavicon', function() {
 
 // =======================================================================
 // Watch for changes
-// =======================================================================  
+// =======================================================================
 gulp.task('watch', function() {
     gulp.watch(filePath.styles.watch, ['styles-dev']);
     gulp.watch(filePath.assets.images.watch, ['images']);
