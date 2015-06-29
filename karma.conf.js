@@ -1,5 +1,7 @@
 // Karma configuration
 
+var istanbul = require('browserify-istanbul');
+
 'use strict';
 
 module.exports = function (config) {
@@ -33,7 +35,9 @@ module.exports = function (config) {
 
         browserify: {
             debug: true,
-            transform: ['debowerify', 'html2js-browserify', 'browserify-istanbul'],
+            transform: ['debowerify', 'html2js-browserify', istanbul({
+              'ignore': ['**/*.spec.js', '**/libs/**']
+            })],
 
             // don't forget to register the extensions
             extensions: ['.js']
