@@ -152,7 +152,9 @@ gulp.task('clean-dev', function() {
 });
 
 gulp.task('clean-full', function() {
-    del(['./dist/*']);
+    del(['./dist/*',
+        './reports/**/*',
+        './reports']);
 });
 
 
@@ -386,7 +388,7 @@ gulp.task('build-dev', function(callback) {
 // run "gulp test" in terminal to build the DEV app
 gulp.task('build-test', function(callback) {
     runSequence(
-        ['build-dev'],
+        ['clean-full', 'lint', 'checkstyle'],
         ['karma'],
         callback
     );
