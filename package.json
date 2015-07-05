@@ -15,13 +15,21 @@
   "scripts": {
     "start": "node server.js"
   },
+  "browserify-shim": {
+    "angular": {
+      "exports": "angular"
+    }
+  },
   "browserify": {
     "transform": [
+      "browserify-shim",
       "html2js-browserify",
       "debowerify"
     ]
   },
-  "browser": {},
+  "browser": {
+    "angular": "./libs/angular/angular.js"
+  },
   "devDependencies": {
     "bower": "latest",
     "browserify": "^9.0.3",
