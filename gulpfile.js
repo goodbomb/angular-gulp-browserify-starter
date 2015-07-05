@@ -277,7 +277,6 @@ gulp.task('images', function() {
 // Fonts Task
 // =======================================================================
 gulp.task('fonts', function () {
-    'use strict';
     return gulp.src(filePath.assets.fonts.src)
         .on('error', handleError)
         .pipe(gulp.dest(filePath.assets.fonts.dest))
