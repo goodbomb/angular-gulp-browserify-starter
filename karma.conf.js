@@ -35,7 +35,7 @@ module.exports = function (config) {
 
         browserify: {
             debug: true,
-            transform: ['debowerify', 'html2js-browserify', istanbul({
+            transform: ['debowerify', 'partialify', istanbul({
                 'ignore': ['**/*.spec.js', '**/libs/**']
             })],
 
