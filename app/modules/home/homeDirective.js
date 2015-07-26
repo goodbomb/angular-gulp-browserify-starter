@@ -3,8 +3,10 @@
 module.exports = function homeDirective() {
     return {
         controller: 'HomeCtrl', // Called from HomeController.js
-        template: require('./home.html'),
+        controllerAs: 'ctrl',
+        bindToController: true,
         restrict: 'EA',
-        scope: true
+        scope: true,
+        template: require('./home.html')
     };
 };

@@ -3,8 +3,10 @@
 module.exports = function aboutDirective() {
     return {
         controller: 'AboutCtrl',
-        template: require('./about.html'),
+        controllerAs: 'ctrl',
+        bindToController: true,
         restrict: 'EA',
-        scope: true
+        scope: true,
+        template: require('./about.html')
     };
 };
