@@ -106,6 +106,8 @@ function handleError(err) {
 // =======================================================================
 // Server Task
 // =======================================================================
+var logger = require('winston');
+logger.error("I'm just getting started!");
 var express = require('express');
 var app = express();
 var server = require('http').createServer(app);
@@ -119,6 +121,7 @@ server.listen(app.get('port'), function() {
 });
 
 io.on('connection', function (socket) {
+    logger.info("Hi! Someone just connected");
     socket.emit('socket:message', { hello: 'world' });
     socket.on('my other event', function (data) {
         console.log(data);
