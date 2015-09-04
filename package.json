@@ -33,8 +33,8 @@
   "devDependencies": {
     "bower": "latest",
     "browserify": "^11.0.1",
-    "browserify-shim": "^3.8.5",
     "browserify-istanbul": "^0.2.1",
+    "browserify-shim": "^3.8.5",
     "chai": "^3.2.0",
     "debowerify": "^1.2.1",
     "del": "^2.0.0",
@@ -75,6 +75,7 @@
   "dependencies": {
     "connect": "^3.2.0",
     "express": "^4.4.5",
-    "proxy-middleware": "^0.13.1"
+    "proxy-middleware": "^0.13.1",
+    "socket.io": "^1.3.6"
   }
 }

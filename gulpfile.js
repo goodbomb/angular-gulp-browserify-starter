@@ -74,7 +74,8 @@ var filePath = {
             './libs/bootstrap/dist/js/bootstrap.js',
             './libs/domready/ready.js',
             './libs/lodash/lodash.js',
-            './libs/restangular/dist/restangular.js'
+            './libs/restangular/dist/restangular.js',
+            './libs/angular-socket-io/socket.js'
         ]
     },
     vendorCSS: {
@@ -105,22 +106,31 @@ function handleError(err) {
 // =======================================================================
 // Server Task
 // =======================================================================
-var express = require('express'),
-    server = express();
-// Server settings
-server.use(express.static(filePath.build.dest));
-// Redirects everything back to our index.html
-server.all('/*', function(req, res) {
-    res.sendfile('/', {
-        root: filePath.build.dest
+var express = require('express');
+var app = express();
+var server = require('http').createServer(app);
+var io = require('socket.io').listen(server);
+
+app.set('port', (process.env.PORT || 5000));
+app.use(express.static(filePath.build.dest));
+
+server.listen(app.get('port'), function() {
+    console.log("Node app is running at localhost:" + app.get('port'));
+});
+
+io.on('connection', function (socket) {
+    socket.emit('socket:message', { hello: 'world' });
+    socket.on('my other event', function (data) {
+        console.log(data);
     });
 });
+
 // uncomment the "middleware" section when you are ready to connect to an API
 gulp.task('server', function() {
     connect.server({
         root: filePath.build.dest,
         fallback: filePath.build.dest + '/index.html',
-        port: 5000,
+        //port: 5000,
         livereload: true
         // ,
         // middleware: function(connect, o) {
