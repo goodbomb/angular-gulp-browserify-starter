@@ -1,8 +1,8 @@
 'use strict';
 
-var ServiceName = function() {
-
+var ServiceName = function(socketFactory) {
+    return socketFactory();
 };
 
-ServiceName.$inject = [];
+ServiceName.$inject = ['socketFactory'];
 module.exports = ServiceName;

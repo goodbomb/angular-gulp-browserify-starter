@@ -10,6 +10,7 @@ require('angular-sanitize');
 require('domready/ready');
 require('lodash');
 require('restangular');
+require('angular-socket-io');
 
 module.exports = angular.module('common',
     [
@@ -20,6 +21,7 @@ module.exports = angular.module('common',
         'ngResource',
         'ngSanitize',
         'restangular',
+        'btford.socket-io',
         require('./elements/header').name,
         require('./elements/footer').name,
         require('./constants').name,
