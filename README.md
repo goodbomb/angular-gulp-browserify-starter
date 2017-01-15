@@ -1,5 +1,9 @@
 # AngularJS-Gulp-Browserify Starter App
 
+****************************************************
+**Please Note:** This project is no longer actively maintained and there is no support available for problems encountered. If you choose to work with this starter, you'll have to debug the problems on your own as I no longer have relevant Angular knowledge now that I've moved on to ReactJS.
+****************************************************
+
 This Angular starter app is built with best practices in mind. The folder structure is intended to be different than the standard official AngularJS application. The application architecture follows modern design conventions from the proposal outlined here:
 
 https://docs.google.com/document/d/1XXMvReO8-Awi1EZXAXS4PzDzdNvV6pGcuaF4Q9821Es/pub
